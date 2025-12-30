@@ -38,6 +38,7 @@
 	<script src="assets/js/pendientes.js"></script>
 	<script src="assets/js/clientes.js"></script>
 	<script src="assets/js/gasolina.js"></script>
+	<script src="assets/js/publicidad.js"></script>
 	<script src="assets/js/router.js"></script>
 	<script src="assets/js/app.js"></script>
 </body>

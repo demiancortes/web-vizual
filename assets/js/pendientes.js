@@ -123,9 +123,16 @@ function renderPendientes() {
 						</div>
 						<small>📍 ${v.fraccionamiento}</small>
 					</div>
+				<div>
 					<span class="badge bg-success">
 						$${Number(v.pendiente || 0).toLocaleString()}
 					</span>
+					<span onclick="abrirModalInstalado(${v.idCliente})" title="Marcar instalado ✔️" class="badge bg-primary">🛠️</span>
+	  					
+					
+				</div>
+					
+					
 				</div>
 
 				<div class="card-body p-0">
@@ -232,6 +239,96 @@ function actualizarBadgeTotal(monto) {
 		</span>
 	`;
 }
+
+/* =========================
+   Modal - Marcar instalado
+   ========================= */
+let clienteInstalarId = null;
+
+function abrirModalInstalado(idCliente) {
+
+	clienteInstalarId = idCliente;
+
+	// Precargar fecha de hoy (local)
+	const hoy = new Date().toLocaleDateString('en-CA');
+	const inputFecha = document.getElementById('instFecha');
+	if (inputFecha) {
+		inputFecha.value = hoy;
+	}
+
+	// Abrir modal
+	const modalEl = document.getElementById('modalPendientes');
+	if (!modalEl) {
+		console.warn('Modal pendientes no encontrado');
+		return;
+	}
+
+	const modal = new bootstrap.Modal(modalEl);
+	modal.show();
+}
+
+/* =========================
+   Confirmar instalación
+   ========================= */
+let instalandoPendiente = false;
+
+function confirmarInstalacion() {
+
+	if (instalandoPendiente) return;
+
+	const fecha = document.getElementById('instFecha').value;
+
+	if (!fecha) {
+		alert('Selecciona una fecha de instalación');
+		return;
+	}
+
+	if (!clienteInstalarId) {
+		alert('Cliente no válido');
+		return;
+	}
+
+	instalandoPendiente = true;
+
+	// Deshabilitar botón
+	const btn = document.querySelector('#modalPendientes .btn-success');
+	if (btn) btn.disabled = true;
+
+	mostrarOverlay('pendientes', 'Marcando como instalado…');
+
+	fetch('api/marcar_instalado.php', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({
+			cliente_id: clienteInstalarId,
+			fecha_instalacion: fecha
+		})
+	})
+	.then(r => r.json())
+	.then(resp => {
+		if (!resp.ok) {
+			alert('No se pudo marcar como instalado');
+			return;
+		}
+
+		// Cerrar modal
+		const modalEl = document.getElementById('modalPendientes');
+		const modal = bootstrap.Modal.getInstance(modalEl);
+		if (modal) modal.hide();
+
+		// Refrescar pendientes
+		cargarPendientes();
+	})
+	.catch(() => alert('Error al marcar instalado'))
+	.finally(() => {
+		instalandoPendiente = false;
+		if (btn) btn.disabled = false;
+		ocultarOverlay('pendientes');
+	});
+}
+
+
+
 
 /* =========================
    Registro de la vista

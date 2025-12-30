@@ -86,8 +86,7 @@ function renderClientes() {
 						<col style="width:110px">  <!-- Fecha -->
 						<col style="width:220px">  <!-- Nombre -->
 						<col style="width:160px">  <!-- Teléfono -->
-						<col style="width:220px">  <!-- Domicilio -->
-						<col style="width:220px">  <!-- Fraccionamiento -->
+						<col style="width:440px">  <!-- Domicilio -->
 						<col style="width:140px">  <!-- Total -->
 						<col style="width:90px">   <!-- Cant. -->
 						<col style="width:120px">  <!-- Ubicación -->
@@ -100,7 +99,6 @@ function renderClientes() {
 							<th>Nombre</th>
 							<th>Teléfono</th>
 							<th>Domicilio</th>
-							<th>Fraccionamiento</th>
 							<th class="text-end">Total</th>
 							<th class="text-center">Cant.</th>
 							<th>Ubicación</th>
@@ -116,8 +114,7 @@ function renderClientes() {
 				<td>${formatoFecha(c.fecha)}</td>
 				<td>${c.nombre}</td>
 				<td>${formatoTelefono(c.telefono)}</td>
-				<td>${c.domicilio || '—'}</td>
-				<td>${c.fraccionamiento || '—'}</td>
+				<td>${[c.domicilio, c.fraccionamiento].filter(Boolean).join(' · ') || '—'}</td>
 				<td class="text-end">
 					$${Number(c.total).toLocaleString()}
 				</td>

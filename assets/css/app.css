@@ -173,7 +173,15 @@ html, body{
 	max-height: 75vh; /* más aire */
 }
 
-.table-scroll-clientes th,
+:is(.table-scroll-clientes, .table-scroll-gasolina, .table-scroll-publicidad
+) th,
+:is(.table-scroll-clientes, .table-scroll-gasolina, .table-scroll-publicidad
+) td { 
+	white-space: nowrap !important;
+}
+
+
+/*.table-scroll-clientes th,
 .table-scroll-clientes td {
 	white-space: nowrap !important;
 }
@@ -182,6 +190,11 @@ html, body{
 .table-scroll-gasolina td {
 	white-space: nowrap !important;
 }
+
+.table-scroll-publicidad th,
+.table-scroll-publicidad td {
+	white-space: nowrap !important;
+}*/
 
 
 

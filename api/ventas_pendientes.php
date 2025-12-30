@@ -23,7 +23,8 @@ require __DIR__ . '/../db.php';
    c.nombre,
    c.telefono,
    c.fraccionamiento, 
-   c.pendiente
+   c.pendiente, 
+   c.id
    FROM ventas v
    JOIN clientes c ON c.id = v.cliente_id
    WHERE v.fecha_instalacion IS NULL
@@ -101,7 +102,8 @@ require __DIR__ . '/../db.php';
 		'alto'             => $r['alto'],
 		'pendiente' 		 => $r['pendiente'],
 		'dias_habiles'     => $diasHabiles,
-		'estado'           => $estado
+		'estado'           => $estado, 
+		'idCliente' 		 => $r['id']
 	];
 }
 

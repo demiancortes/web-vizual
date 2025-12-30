@@ -110,7 +110,7 @@
 
 		<div class="col-6 col-md-3">
 			<div class="card-menu" onclick="cargarVista('publicidad')">
-				<div class="icon text-secondary"><i class="bi bi-megaphone"></i></div>
+				<div class="icon text-secondary">📢</div>
 				<div class="title">Publicidad</div>
 			</div>
 		</div>
