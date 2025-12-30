@@ -1,5 +1,21 @@
 <h5 class="mb-2">📋 Ventas del mes</h5>
 
+<div class="position-relative">
+
+	<!-- OVERLAY (nuevo, no rompe nada) -->
+	<div id="overlay-ventas"
+	class="position-absolute top-0 start-0 w-100 h-100 d-none"
+	style="background: rgba(255,255,255,.85); z-index: 10;">
+	<div class="d-flex justify-content-center align-items-center h-100">
+		<div class="text-center">
+			<div class="spinner-border text-secondary mb-2"></div>
+			<div class="fw-semibold" id="overlay-text-ventas">
+				Cargando ventas…
+			</div>
+		</div>
+	</div>
+</div>
+
 <!-- 📅 FECHAS + BOTONES -->
 <div class="row g-2 align-items-end mb-2">
 
@@ -60,3 +76,4 @@
 	</div>
 </div>
 <div id="ventasResultado"></div>
+</div>

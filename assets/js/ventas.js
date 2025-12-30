@@ -81,6 +81,7 @@ function initBuscadorVentas(){
    CARGAR DATA
    ========================= */
 function cargarVentas(){
+	mostrarOverlay('ventas', 'Cargando ventas…');
 	document.getElementById('ventasBuscador').value = '';
 	const desde = ventasDesde.value;
 	const hasta = ventasHasta.value;
@@ -92,7 +93,9 @@ function cargarVentas(){
 		recalcularBadgesVentas();
 		initBuscadorVentas();
 
-	});
+	}).finally(() => {
+			ocultarOverlay('ventas');
+		});
 }
 
 /* =========================
@@ -160,7 +163,7 @@ function renderVentas(data){
 				</div>
 
 				<div class="card-body p-0">
-					<div class="table-scroll">
+					<div class="table-scroll table-scroll-ventas">
 						<table class="table table-sm mb-0">
 							<thead class="table-light">
 								<tr>

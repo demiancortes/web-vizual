@@ -1,9 +1,4 @@
 // assets/js/utils.js
-
-/* =========================
-   FECHAS COMUNES (SPA)
-   ========================= */
-
 function primerDiaMes(){
   const hoy = new Date();
   const y = hoy.getFullYear();

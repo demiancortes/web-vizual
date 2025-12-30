@@ -1,74 +1,3 @@
-<!-- DASHBOARD -->
-
-<style>
-	/* Cards resumen (más compactas) */
-	.card-resumen{
-		border:none;
-		border-radius:.75rem;
-		color:#fff;
-		padding:.7rem .8rem;
-		height:100%;
-	}
-
-	.card-resumen .icon{
-		font-size:1.5rem;
-		opacity:.9;
-	}
-
-	.card-resumen .value{
-		font-size:1.2rem;
-		font-weight:700;
-		line-height:1.1;
-	}
-
-	.card-resumen small{
-		opacity:.9;
-	}
-
-	/* Cards alerta */
-	.card-alerta{
-		border:none;
-		border-radius:.75rem;
-		padding:.8rem .9rem;
-		color:#fff;
-		height:100%;
-	}
-
-	.card-resumen .icon{
-		font-size:1.5rem;
-		opacity:.9;
-	}
-	
-
-	/* Cards menú */
-	.card-menu{
-		border:none;
-		border-radius:.75rem;
-		padding:1.1rem .9rem;
-		background:#fff;
-		text-align:center;
-		box-shadow:0 4px 10px rgba(0,0,0,.06);
-		transition:.2s;
-		height:100%;
-		cursor:pointer;
-	}
-
-	.card-menu:hover{
-		transform:translateY(-2px);
-		box-shadow:0 6px 14px rgba(0,0,0,.1);
-	}
-
-	.card-menu .icon{
-		font-size:1.9rem;
-		margin-bottom:.25rem;
-	}
-
-	.card-menu .title{
-		font-weight:600;
-		font-size:.9rem;
-	}
-</style>
-
 <div class="container-fluid p-0">
 
 	<!-- 📊 RESUMEN DEL MES -->
@@ -146,7 +75,7 @@
 
 		<div class="col-6 col-md-3">
 			<div class="card-menu" onclick="cargarVista('ventas')">
-				<div class="icon text-primary"><i class="bi bi-list-check"></i></div>
+				<div class="icon text-primary">📋</div>
 				<div class="title">Ventas del mes</div>
 			</div>
 		</div>
@@ -160,21 +89,21 @@
 
 		<div class="col-6 col-md-3">
 			<div class="card-menu" onclick="cargarVista('clientes')">
-				<div class="icon text-info"><i class="bi bi-people"></i></div>
+				<div class="icon text-info">👥</div>
 				<div class="title">Clientes</div>
 			</div>
 		</div>
 
 		<div class="col-6 col-md-3">
 			<div class="card-menu" onclick="cargarVista('pendientes')">
-				<div class="icon text-danger"><i class="bi bi-exclamation-circle"></i></div>
+				<div class="icon text-danger">🛠️</div>
 				<div class="title">Por instalar</div>
 			</div>
 		</div>
 
 		<div class="col-6 col-md-3">
 			<div class="card-menu" onclick="cargarVista('gasolina')">
-				<div class="icon text-warning"><i class="bi bi-fuel-pump"></i></div>
+				<div class="icon text-warning">⛽</div>
 				<div class="title">Gasolina</div>
 			</div>
 		</div>
