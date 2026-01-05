@@ -32,14 +32,14 @@ $hoy       = date('Y-m-d');
    SELECT COUNT(*)
    FROM ventas
    WHERE fecha_instalacion IS NULL
-   AND fecha_cotizacion BETWEEN :desde AND :hasta
+   AND fecha_cotizacion >= DATE_FORMAT(
+      DATE_SUB(CURDATE(), INTERVAL 1 MONTH),
+      '%Y-%m-01'
+   )
    ";
 
    $stmt = $pdo->prepare($sqlPendientes);
-   $stmt->execute([
-   	':desde' => $inicioMes,
-   	':hasta' => $hoy
-   ]);
+   $stmt->execute();
 
    $pendientes = $stmt->fetchColumn();
 

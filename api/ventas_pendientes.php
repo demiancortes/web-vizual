@@ -28,17 +28,18 @@ require __DIR__ . '/../db.php';
    FROM ventas v
    JOIN clientes c ON c.id = v.cliente_id
    WHERE v.fecha_instalacion IS NULL
-   AND v.fecha_cotizacion BETWEEN :desde AND :hasta
+   
+   AND v.fecha_cotizacion >= DATE_FORMAT(
+		DATE_SUB(CURDATE(), INTERVAL 1 MONTH),
+		'%Y-%m-01'
+	)
    ORDER BY v.fecha_cotizacion ASC,
    c.nombre ASC,
    v.id ASC
    ";
 
    $stmt = $pdo->prepare($sql);
-   $stmt->execute([
-   	':desde' => $desde,
-   	':hasta' => $hasta
-   ]);
+   $stmt->execute();
 
    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
