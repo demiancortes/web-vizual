@@ -13,6 +13,7 @@ require __DIR__ . '/../db.php';
    $sql = "
    SELECT
    v.id,
+   v.ctrl, 
    v.tipo,
    v.fecha_cotizacion,
    v.fecha_instalacion,
@@ -102,6 +103,7 @@ require __DIR__ . '/../db.php';
 		'largo'            => $r['largo'],
 		'alto'             => $r['alto'],
 		'pendiente' 		 => $r['pendiente'],
+		'ctrl' 		 => $r['ctrl'],
 		'dias_habiles'     => $diasHabiles,
 		'estado'           => $estado, 
 		'idCliente' 		 => $r['id']

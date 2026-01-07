@@ -74,6 +74,13 @@
 	<div class="row g-3">
 
 		<div class="col-6 col-md-3">
+			<div class="card-menu" onclick="abrirModalVenta()">
+				<div class="icon text-primary">➕</div>
+				<div class="title">Registrar venta</div>
+			</div>
+		</div>
+
+		<div class="col-6 col-md-3">
 			<div class="card-menu" onclick="cargarVista('ventas')">
 				<div class="icon text-primary">📋</div>
 				<div class="title">Ventas del mes</div>
@@ -118,3 +125,4 @@
 	</div>
 
 </div>
+<?php include __DIR__ . '/modals/modal_venta.php'; ?>

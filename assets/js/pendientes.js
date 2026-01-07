@@ -127,6 +127,7 @@ function renderPendientes() {
 					<span class="badge bg-success">
 						$${Number(v.pendiente || 0).toLocaleString()}
 					</span>
+					<span onclick="accionGenerarPedido(${v.idCliente})" title="Generar pedido 🧾" class="badge bg-secondary">🧾</span>
 					<span onclick="abrirModalInstalado(${v.idCliente})" title="Marcar instalado ✔️" class="badge bg-primary">🛠️</span>
 	  					
 					
@@ -140,9 +141,9 @@ function renderPendientes() {
 						<table class="table table-sm mb-0">
 
 							<colgroup>
-								<col style="width:14%">
+								<col style="width:15%">
 								<col style="width:8%">
-								<col style="width:26%">
+								<col style="width:25%">
 								<col style="width:16%">
 								<col style="width:10%">
 								<col style="width:16%">
@@ -325,6 +326,55 @@ function confirmarInstalacion() {
 		if (btn) btn.disabled = false;
 		ocultarOverlay('pendientes');
 	});
+}
+
+
+function accionGenerarPedido(idCliente) {
+
+	const persianas = obtenerPersianasPedido(idCliente);
+
+	if (!persianas.length) {
+		console.warn('No hay persianas para generar pedido');
+		return;
+	}
+
+	const textoPedido = generarTextoPedido(persianas);
+
+	copiarTexto(textoPedido);
+}
+
+
+function obtenerPersianasPedido(idCliente) {
+
+	return pendientesData
+		.filter(v => v.idCliente === idCliente)
+		.map(v => ({
+			modelo: v.modelo,
+			medida: v.medida_real || `${v.largo} x ${v.alto}`,
+			ctrl:
+				v.ctrl === 'IZQ' ? 'Izquierda' :
+				v.ctrl === 'DER' ? 'Derecha' : ''
+		}));
+}
+
+
+function generarTextoPedido(items) {
+
+	let texto = '';
+	let modeloActual = null;
+
+	items.forEach(p => {
+
+		if (modeloActual !== p.modelo) {
+			if (modeloActual !== null) texto += '\n';
+			modeloActual = p.modelo;
+			texto += `${modeloActual}\n`;
+		}
+
+		texto += `${formatearMedidaPedido(p.medida)} ${p.ctrl}\n`;
+	});
+
+	return texto.trim();
 }
 
 

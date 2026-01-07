@@ -225,3 +225,23 @@ html, body{
 .ventas-badges::-webkit-scrollbar{
 	display:none;
 }
+
+.toast-success {
+	border-left: 8px solid #198754 !important;
+	background: #f6fffa;
+}
+
+.toast-info {
+	border-left: 8px solid #0dcaf0 !important;
+	background: #f1fbfe;
+}
+
+.toast-warning {
+	border-left: 8px solid #ffc107 !important;
+	background: #fff9e6;
+}
+
+.toast-danger {
+	border-left: 8px solid #dc3545 !important;
+	background: #fff5f5;
+}
