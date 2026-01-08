@@ -28,6 +28,9 @@
 		<!-- Aquí se cargan las vistas -->
 	</div>
 
+	<!-- CONTENEDOR DE MODALES -->
+	<div id="modalContainer"></div>
+
 	<!-- Toast Global -->
 	<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index:1100;">
 		<div
@@ -54,11 +57,11 @@
 </div>
 
 
+
 <!-- Bootstrap JS (SIN defer, SIN async) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/utils.js"></script>
 <script src="assets/js/helpers.js"></script>
-
 <script src="assets/js/dashboard.js"></script>
 <script src="assets/js/ventas.js"></script>
 <script src="assets/js/venta.js"></script>

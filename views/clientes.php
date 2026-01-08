@@ -31,3 +31,4 @@
 
 <div id="clientesResultado"></div>
 </div>
+<?php include __DIR__ . '/modals/modal_editar_cliente.php'; ?>

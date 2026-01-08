@@ -126,3 +126,56 @@ function formatearMedidaPedido(medida) {
 		.replace(/\s+/g, '')  // quitar espacios
 		.replace(/x/gi, 'X'); // x → X
 }
+
+function cerrarModalesAbiertos() {
+	return new Promise(resolve => {
+
+		const modales = document.querySelectorAll('.modal.show');
+
+		if (!modales.length) {
+			resolve();
+			return;
+		}
+
+		let pendientes = modales.length;
+
+		modales.forEach(modalEl => {
+			const instance = bootstrap.Modal.getInstance(modalEl);
+			if (!instance) {
+				if (--pendientes === 0) resolve();
+				return;
+			}
+
+			modalEl.addEventListener(
+				'hidden.bs.modal',
+				() => {
+					if (--pendientes === 0) resolve();
+				},
+				{ once: true }
+			);
+
+			instance.hide();
+		});
+	});
+}
+
+
+document.addEventListener('hidden.bs.modal', (e) => {
+	if (document.activeElement instanceof HTMLElement) {
+		document.activeElement.blur();
+	}
+	setTimeout(() => {
+		document.body.focus();
+	}, 0);
+});
+
+function cargarModalesGlobales() {
+	fetch('views/modals/modal_venta.php')
+		.then(r => r.text())
+		.then(html => {
+			document.getElementById('modalContainer').insertAdjacentHTML(
+				'beforeend',
+				html
+			);
+		});
+}

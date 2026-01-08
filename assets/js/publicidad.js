@@ -138,6 +138,7 @@ function actualizarTotalPublicidad(monto) {
    MODAL - Agregar Publicidad
    ========================= */
 function abrirModalPublicidad() {
+	cerrarModalesAbiertos(); // 👈 CLAVE
 	if (!modalPublicidad) {
 		modalPublicidad = new bootstrap.Modal(
 			document.getElementById('modalPublicidad')

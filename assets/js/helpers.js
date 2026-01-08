@@ -72,3 +72,15 @@ function formatoMoneda(valor) {
 		.toFixed(2)
 		.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
+
+function formatearImporte(input) {
+
+	let valor = parseFloat(input.value.replace(/,/g, ''));
+
+	if (isNaN(valor)) {
+		input.value = '';
+		return;
+	}
+
+	input.value = valor.toFixed(2);
+}

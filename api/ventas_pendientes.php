@@ -29,15 +29,10 @@ require __DIR__ . '/../db.php';
    FROM ventas v
    JOIN clientes c ON c.id = v.cliente_id
    WHERE v.fecha_instalacion IS NULL
-   
    AND v.fecha_cotizacion >= DATE_FORMAT(
 		DATE_SUB(CURDATE(), INTERVAL 1 MONTH),
 		'%Y-%m-01'
-	)
-   ORDER BY v.fecha_cotizacion ASC,
-   c.nombre ASC,
-   v.id ASC
-   ";
+	) ORDER BY v.fecha_cotizacion ASC, v.id ASC";
 
    $stmt = $pdo->prepare($sql);
    $stmt->execute();

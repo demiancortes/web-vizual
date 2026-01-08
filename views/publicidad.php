@@ -19,11 +19,11 @@
 	<!-- Filtros -->
 	<div class="row g-2 mb-2 align-items-end">
 		<div class="col-6 col-md-3">
-			<label class="form-label small mb-1">Desde</label>
+			<label for="publicidadDesde" class="form-label small mb-1">Desde</label>
 			<input type="date" id="publicidadDesde" class="form-control form-control-sm">
 		</div>
 		<div class="col-6 col-md-2">
-			<label class="form-label small mb-1">Hasta</label>
+			<label for="publicidadHasta" class="form-label small mb-1">Hasta</label>
 			<input type="date" id="publicidadHasta" class="form-control form-control-sm">
 		</div>
 		<div class="col-6 col-md-2">

@@ -5,7 +5,7 @@
 			<!-- ================= HEADER ================= -->
 			<div class="modal-header py-2">
 				<h6 class="modal-title">➕ Registrar venta</h6>
-				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" onclick="this.blur()"></button>
 			</div>
 
 			<!-- Alertas -->
@@ -21,28 +21,28 @@
 				     <div class="text-muted small fw-semibold mb-2">Datos del cliente</div>
 
 				     <div class="d-flex align-items-center mb-2">
-				     	<label class="form-label small mb-0 me-2">Fecha:</label>
+				     	<label for="venFecha" class="form-label small mb-0 me-2">Fecha:</label>
 				     	<input type="date" id="venFecha" class="form-control form-control-sm">
 				     </div>
 
 				     <div class="row g-2 mb-2">
 				     	<div class="col-6">
-				     		<label class="form-label small mb-1">Cliente</label>
+				     		<label for="venCliente" class="form-label small mb-1">Cliente</label>
 				     		<input type="text" id="venCliente" class="form-control form-control-sm">
 				     	</div>
 				     	<div class="col-6">
-				     		<label class="form-label small mb-1">Teléfono</label>
+				     		<label for="venTelefono" class="form-label small mb-1">Teléfono</label>
 				     		<input type="text" id="venTelefono" class="form-control form-control-sm">
 				     	</div>
 				     </div>
 
 				     <div class="row g-2 mb-3">
 				     	<div class="col-6">
-				     		<label class="form-label small mb-1">Dirección</label>
+				     		<label for="venDomicilio" class="form-label small mb-1">Dirección</label>
 				     		<input type="text" id="venDomicilio" class="form-control form-control-sm">
 				     	</div>
 				     	<div class="col-6">
-				     		<label class="form-label small mb-1">Fraccionamiento</label>
+				     		<label for="venFraccionamiento" class="form-label small mb-1">Fraccionamiento</label>
 				     		<input type="text" id="venFraccionamiento" class="form-control form-control-sm">
 				     	</div>
 				     </div>
@@ -54,7 +54,7 @@
 
 				     <div class="row g-2 mb-3">
 				     	<div class="col-4">
-				     		<label class="form-label small">Total</label>
+				     		<label for="venTotal" class="form-label small">Total</label>
 				     		<div class="input-group input-group-sm">
 				     			<span class="input-group-text">$</span>
 				     			<input type="text" id="venTotal" class="form-control" inputmode="decimal">
@@ -62,7 +62,7 @@
 				     	</div>
 
 				     	<div class="col-4">
-				     		<label class="form-label small">Anticipo</label>
+				     		<label for="venAnticipo" class="form-label small">Anticipo</label>
 				     		<div class="input-group input-group-sm">
 				     			<span class="input-group-text">$</span>
 				     			<input type="text" id="venAnticipo" class="form-control" inputmode="decimal">
@@ -70,7 +70,7 @@
 				     	</div>
 
 				     	<div class="col-4">
-				     		<label class="form-label small">Pendiente</label>
+				     		<label for="venPendiente" class="form-label small">Pendiente</label>
 				     		<div class="input-group input-group-sm">
 				     			<span class="input-group-text">$</span>
 				     			<input type="text" id="venPendiente" class="form-control" readonly>
@@ -123,7 +123,7 @@
 				     	</div>
 
 				     	<div class="col-4">
-				     		<label class="form-label small">Cadena</label>
+				     		<label for="perCadena" class="form-label small">Cadena</label>
 				     		<select id="perCadena" class="form-select form-select-sm">
 				     			<option value="IZQ">IZQ</option>
 				     			<option value="DER">DER</option>
@@ -134,19 +134,19 @@
 				     <!-- ========== BLOQUE B: MEDIDAS ========== -->
 				     <div class="row g-2 mb-2">
 				     	<div class="col-3">
-				     		<label class="form-label small">Ancho</label>
+				     		<label for="perAncho" class="form-label small">Ancho</label>
 				     		<input type="text" id="perAncho" class="form-control form-control-sm" inputmode="decimal"
 				     		placeholder="0.00">
 				     	</div>
 
 				     	<div class="col-3">
-				     		<label class="form-label small">Alto</label>
+				     		<label for="perAlto" class="form-label small">Alto</label>
 				     		<input type="text" id="perAlto" class="form-control form-control-sm" inputmode="decimal"
 				     		placeholder="0.00">
 				     	</div>
 
 				     	<div class="col-6">
-				     		<label class="form-label small">Medida real</label>
+				     		<label for="perMedidaReal" class="form-label small">Medida real</label>
 				     		<input type="text" id="perMedidaReal" class="form-control form-control-sm" readonly>
 				     	</div>
 				     </div>
@@ -154,7 +154,7 @@
 				     <!-- ========== BLOQUE C: IMPORTES DE LA PERSIANA ========== -->
 				     <div class="row g-2 mb-3 align-items-end">
 				     	<div class="col-4">
-				     		<label class="form-label small">Total</label>
+				     		<label for="perTotal" class="form-label small">Total</label>
 				     		<div class="input-group input-group-sm">
 				     			<span class="input-group-text">$</span>
 				     			<input type="text" id="perTotal" class="form-control" inputmode="decimal">
@@ -162,7 +162,7 @@
 				     	</div>
 
 				     	<div class="col-4">
-				     		<label class="form-label small">Precio</label>
+				     		<label for="perPrecio" class="form-label small">Precio</label>
 				     		<div class="input-group input-group-sm">
 				     			<span class="input-group-text">$</span>
 				     			<input type="text" id="perPrecio" class="form-control" inputmode="decimal">
@@ -204,7 +204,7 @@
 
 				 <!-- ================= FOOTER ================= -->
 				 <div class="modal-footer py-2">
-				 	<button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
+				 	<button class="btn btn-secondary btn-sm" data-bs-dismiss="modal" onclick="this.blur()">Cancelar</button>
 				 	<button
 				 	id="btnGuardarVenta"
 				 	type="button"
@@ -226,7 +226,7 @@
 
 			<div class="modal-header py-2">
 				<h6 class="modal-title" id="confirmarTitulo">Confirmar acción</h6>
-				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" onclick="this.blur()"></button>
 			</div>
 
 			<div class="modal-body small" id="confirmarContenido"></div>
@@ -235,7 +235,7 @@
 				<button
 					type="button"
 					class="btn btn-secondary btn-sm"
-					data-bs-dismiss="modal">
+					data-bs-dismiss="modal" onclick="this.blur()">
 					Cancelar
 				</button>
 

@@ -20,12 +20,12 @@
 	<div class="row g-2 mb-2 align-items-end">
 
 		<div class="col-6 col-md-2">
-			<label class="form-label small mb-1">Desde</label>
+			<label for="gasolinaDesde" class="form-label small mb-1">Desde</label>
 			<input type="date" id="gasolinaDesde" class="form-control form-control-sm">
 		</div>
 
 		<div class="col-6 col-md-2">
-			<label class="form-label small mb-1">Hasta</label>
+			<label for="gasolinaHasta" class="form-label small mb-1">Hasta</label>
 			<input type="date" id="gasolinaHasta" class="form-control form-control-sm">
 		</div>
 

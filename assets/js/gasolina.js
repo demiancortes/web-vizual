@@ -140,6 +140,8 @@ function actualizarTotalGasolina(monto) {
    MODAL - Agregar Gasolina
    ========================= */
 function abrirModalGasolina() {
+
+	cerrarModalesAbiertos(); // 👈 CLAVE
 	if (!modalGasolina) {
 		modalGasolina = new bootstrap.Modal(
 			document.getElementById('modalGasolina')

@@ -27,10 +27,16 @@ let modelosBase = [];
    ====================================================== */
 function abrirModalVenta() {
 
+	const modalEl = document.getElementById('modalVenta');
+	if (!modalEl) {
+		console.error('modalVenta no existe en el DOM');
+		return;
+	}
+
 	if (!modalVenta) {
-		modalVenta = new bootstrap.Modal(
-			document.getElementById('modalVenta')
-			);
+		modalVenta = new bootstrap.Modal(modalEl, {
+			focus: false
+		});
 	}
 
 	venFecha.value = new Date().toLocaleDateString('en-CA');
@@ -48,12 +54,8 @@ function abrirModalVenta() {
 	actualizarEstadoVenta();
 
 	modalVenta.show();
-
-	/* 🎯 Foco inicial */
-	setTimeout(() => {
-		venCliente.focus();
-	}, 300);
 }
+
 
 
 /* ======================================================
@@ -205,6 +207,23 @@ function inicializarVentaListeners() {
 	venTotal.addEventListener('input', calcularPendiente);
 	venAnticipo.addEventListener('input', calcularPendiente);
 
+	venTotal.addEventListener('blur', function () {
+		formatearImporte(this);
+	});
+
+	venAnticipo.addEventListener('blur', function () {
+		formatearImporte(this);
+	});
+
+	perPrecio.addEventListener('blur', function () {
+		formatearImporte(this);
+	});
+
+	perTotal.addEventListener('blur', function () {
+		formatearImporte(this);
+	});
+
+
 	perModelo.addEventListener('change', function () {
 		const opt = this.options[this.selectedIndex];
 		perPrecio.value = opt && opt.dataset.precio ? opt.dataset.precio : '';
@@ -213,7 +232,7 @@ function inicializarVentaListeners() {
 		/* 🎯 Foco a ancho */
 		setTimeout(() => {
 			perAncho.focus();
-		}, 100);
+		}, 300);
 	});
 
 	perAncho.addEventListener('input', calcularPersiana);
@@ -238,6 +257,16 @@ function inicializarVentaListeners() {
 			renderSelectModelos(filtrados);
 		});
 	}
+
+	document.getElementById('modalVenta').addEventListener('shown.bs.modal', function () {
+		setTimeout(function () {
+			var inputCliente = document.getElementById('venCliente');
+			if (inputCliente) {
+				inputCliente.focus();
+			}
+		}, 50);
+	});
+
 }
 
 
@@ -449,6 +478,7 @@ function limpiarFormularioPersiana() {
 function resetFormularioVenta() {
 
 	venCliente.value = '';
+	venFecha.value = '';
 	venTelefono.value = '';
 	venDomicilio.value = '';
 	venFraccionamiento.value = '';
@@ -558,9 +588,9 @@ function mostrarConfirmacion({
 
 	// Cancelar → regresar al modal venta
 	modalEl.querySelector('[data-bs-dismiss]')
-		.onclick = function () {
-			if (onCancelar) onCancelar();
-		};
+	.onclick = function () {
+		if (onCancelar) onCancelar();
+	};
 
 	modal.show();
 }

@@ -4,7 +4,6 @@
 let clientesData = [];
 let clientesFiltrados = [];
 
-
 /* =========================
    Init de la vista
    ========================= */
@@ -102,7 +101,7 @@ function renderClientes() {
 							<th class="text-end">Total</th>
 							<th class="text-center">Cant.</th>
 							<th>Ubicación</th>
-							<th class="text-center">📋</th>
+							<th class="text-center">✏️📋</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -128,6 +127,13 @@ function renderClientes() {
 				</td>
 				<td class="text-center">
 					<button
+						class="btn btn-sm btn-outline-primary me-1"
+						title="Editar cliente"
+						onclick="abrirModalEditarCliente(${c.id})">
+						✏️
+					</button>
+
+					<button
 						class="btn btn-sm btn-outline-secondary"
 						title="Copiar cliente"
 						onclick="copiarCliente('[VIZUAL] ${c.nombre} / ${c.domicilio} ${c.fraccionamiento} - ${c.telefono}')"
@@ -148,6 +154,64 @@ function renderClientes() {
 
 	cont.innerHTML = html;
 }
+
+function cargarUbicacionesCliente() {
+
+	const sel = document.getElementById('editClienteUbicacion');
+	if (!sel) return;
+
+	// 🔑 Si el select ya tiene opciones reales, no recargar
+	if (sel.options.length > 1) return;
+
+	fetch('api/venta.php?accion=origenes')
+	.then(r => r.json())
+	.then(data => {
+		if (!Array.isArray(data)) return;
+
+		sel.innerHTML = '<option value="">Seleccionar</option>';
+
+		data.forEach(ubicacion => {
+			const opt = document.createElement('option');
+			opt.value = ubicacion;
+			opt.textContent = ubicacion;
+			sel.appendChild(opt);
+		});
+	});
+}
+
+function abrirModalEditarCliente(id) {
+
+	const c = clientesData.find(x => x.id == id);
+	if (!c) return;
+
+	// Cargar catálogo si no existe
+	cargarUbicacionesCliente();
+
+	// Asignar valores
+	editClienteId.value = c.id;
+	editClienteNombre.value = c.nombre || '';
+	editClienteTelefono.value = c.telefono || '';
+	editClienteDomicilio.value = c.domicilio || '';
+	editClienteFraccionamiento.value = c.fraccionamiento || '';
+	editClienteTotal.value = c.total || 0;
+	editClienteAnticipo.value = c.anticipo || 0;
+	editClientePendiente.value = c.pendiente || 0;
+
+	const modalEl = document.getElementById('modalEditarCliente');
+
+	const modal = new bootstrap.Modal(modalEl, {
+		focus: false
+	});
+
+	// Cuando el modal ya esté visible
+	modalEl.addEventListener('shown.bs.modal', () => {
+		editClienteUbicacion.value = c.ubicacion || '';
+		editClienteNombre.focus();
+	}, { once: true });
+
+	modal.show();
+}
+
 
 /* =========================
    Registro de la vista

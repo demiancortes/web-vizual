@@ -125,4 +125,3 @@
 	</div>
 
 </div>
-<?php include __DIR__ . '/modals/modal_venta.php'; ?>
