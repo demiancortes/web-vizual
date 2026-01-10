@@ -68,6 +68,19 @@
 			</div>
 		</div>
 
+		<div class="col-6 col-md-3">
+			<div class="card-alerta bg-warning">
+				<small>Mejor día del mes</small>
+				<div class="d-flex justify-content-between align-items-center mt-1">
+					<div class="value" id="dashDiaTop">
+						<span id="dashDiaTopFecha">--</span> /
+						<span id="dashDiaTopImporte">$0.00</span>
+					</div>
+					<div class="icon"><i class="bi bi-calendar-event"></i></div>
+				</div>
+			</div>
+		</div>
+
 	</div>
 
 	<!-- 🧭 MENÚ -->

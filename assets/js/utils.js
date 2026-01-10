@@ -179,3 +179,38 @@ function cargarModalesGlobales() {
 			);
 		});
 }
+
+function mostrarAlerta(tipo, mensaje, contenedorId = 'alertVenta') {
+
+	const alertBox = document.getElementById(contenedorId);
+	if (!alertBox) return;
+
+	// Quitar solo clases de tipo alert-*
+	alertBox.classList.remove(
+		'alert-success',
+		'alert-danger',
+		'alert-warning',
+		'alert-info'
+	);
+
+	// Asegurar clase base
+	alertBox.classList.add('alert', 'small', 'mb-2');
+
+	// Agregar tipo
+	alertBox.classList.add(`alert-${tipo}`);
+
+	alertBox.innerHTML = mensaje;
+	alertBox.classList.remove('d-none');
+
+	// Auto ocultar
+	setTimeout(() => {
+		alertBox.classList.add('d-none');
+	}, 4000);
+}
+
+
+function soloNumerosDecimal(input) {
+	input.value = input.value
+		.replace(/[^0-9.]/g, '')   // quita letras
+		.replace(/(\..*)\./g, '$1'); // solo un punto
+}

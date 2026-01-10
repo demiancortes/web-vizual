@@ -57,7 +57,7 @@
 				     		<label for="venTotal" class="form-label small">Total</label>
 				     		<div class="input-group input-group-sm">
 				     			<span class="input-group-text">$</span>
-				     			<input type="text" id="venTotal" class="form-control" inputmode="decimal">
+				     			<input type="text" oninput="soloNumerosDecimal(this)" id="venTotal" class="form-control" inputmode="decimal">
 				     		</div>
 				     	</div>
 
@@ -65,7 +65,7 @@
 				     		<label for="venAnticipo" class="form-label small">Anticipo</label>
 				     		<div class="input-group input-group-sm">
 				     			<span class="input-group-text">$</span>
-				     			<input type="text" id="venAnticipo" class="form-control" inputmode="decimal">
+				     			<input type="text" oninput="soloNumerosDecimal(this)" id="venAnticipo" class="form-control" inputmode="decimal">
 				     		</div>
 				     	</div>
 
@@ -73,7 +73,7 @@
 				     		<label for="venPendiente" class="form-label small">Pendiente</label>
 				     		<div class="input-group input-group-sm">
 				     			<span class="input-group-text">$</span>
-				     			<input type="text" id="venPendiente" class="form-control" readonly>
+				     			<input type="text" oninput="soloNumerosDecimal(this)" id="venPendiente" class="form-control" readonly>
 				     		</div>
 				     	</div>
 				     </div>
@@ -157,7 +157,7 @@
 				     		<label for="perTotal" class="form-label small">Total</label>
 				     		<div class="input-group input-group-sm">
 				     			<span class="input-group-text">$</span>
-				     			<input type="text" id="perTotal" class="form-control" inputmode="decimal">
+				     			<input type="text" oninput="soloNumerosDecimal(this)" id="perTotal" class="form-control" inputmode="decimal">
 				     		</div>
 				     	</div>
 
@@ -165,7 +165,7 @@
 				     		<label for="perPrecio" class="form-label small">Precio</label>
 				     		<div class="input-group input-group-sm">
 				     			<span class="input-group-text">$</span>
-				     			<input type="text" id="perPrecio" class="form-control" inputmode="decimal">
+				     			<input type="text" oninput="soloNumerosDecimal(this)" id="perPrecio" class="form-control" inputmode="decimal">
 				     		</div>
 				     	</div>
 

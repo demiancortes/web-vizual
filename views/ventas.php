@@ -51,9 +51,10 @@
 		placeholder="🔍 Buscar por cliente, fraccionamiento o modelo… (Enter)">
 	</div>
 
-
 	<!-- BADGES (SCROLL EN MÓVIL) -->
 	<div class="col-12 col-md-6">
+
+		<!-- 🔹 Badges principales -->
 		<div class="ventas-badges" id="ventasBadges">
 
 			<span class="badge bg-primary">
@@ -70,6 +71,23 @@
 
 			<span class="badge bg-success">
 				Ganancia: $<span id="bGanancia">0</span>
+			</span>
+
+		</div>
+
+		<!-- 🔹 Badges por origen -->
+		<div class="ventas-badges mt-2">
+
+			<span class="badge badge-publicidad">
+				Publicidad: <span id="bPubPct">0%</span> · $ <span id="bPubTotal">0</span>
+			</span>
+
+			<span class="badge badge-recomendacion">
+				Recomendación: <span id="bRecPct">0%</span> · $ <span id="bRecTotal">0</span>
+			</span>
+
+			<span class="badge badge-mkt">
+				MKT Karen: <span id="bMktPct">0%</span> · $ <span id="bMktTotal">0</span>
 			</span>
 
 		</div>

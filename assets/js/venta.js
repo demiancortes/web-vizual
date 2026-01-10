@@ -123,7 +123,7 @@ function obtenerModeloSeleccionado() {
 
 	if (typeof perModeloBuscar !== 'undefined') {
 		const texto = perModeloBuscar.value.trim();
-		if (texto) return texto.toUpperCase();
+		if (texto) return texto;
 	}
 
 	return '';
@@ -133,27 +133,25 @@ function hayModelosEnSelect() {
 	return perModelo.options.length > 1;
 }
 
-function mostrarAlerta(tipo, mensaje) {
+// function mostrarAlerta(tipo, mensaje) {
 
-	const alertBox = document.getElementById('alertVenta');
-	if (!alertBox) return;
+// 	const alertBox = document.getElementById('alertVenta');
+// 	if (!alertBox) return;
 
-	// Limpiar clases previas
-	alertBox.className = 'alert small mb-2';
+// 	// Limpiar clases previas
+// 	alertBox.className = 'alert small mb-2';
 
-	// Tipos: success | danger | warning | info
-	alertBox.classList.add(`alert-${tipo}`);
+// 	// Tipos: success | danger | warning | info
+// 	alertBox.classList.add(`alert-${tipo}`);
 
-	alertBox.innerHTML = mensaje;
-	alertBox.classList.remove('d-none');
+// 	alertBox.innerHTML = mensaje;
+// 	alertBox.classList.remove('d-none');
 
-	// Auto ocultar después de 4s (opcional)
-	setTimeout(() => {
-		alertBox.classList.add('d-none');
-	}, 4000);
-}
-
-
+// 	// Auto ocultar después de 4s (opcional)
+// 	setTimeout(() => {
+// 		alertBox.classList.add('d-none');
+// 	}, 4000);
+// }
 
 /* ======================================================
    LISTENERS

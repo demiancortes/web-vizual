@@ -40,28 +40,57 @@ function recalcularBadgesVentas(){
 	let total = 0;
 	let ganancia = 0;
 
+	let totalPub = 0;
+	let totalRec = 0;
+	let totalMkt = 0;
+
 	document.querySelectorAll('#ventasResultado .card').forEach(card=>{
 		if(card.style.display === 'none') return;
 
 		ventas++;
+
+		const badge = card.querySelector('.badge');
+		let origen = 'na';
+
+		if (badge) {
+			if (badge.classList.contains('badge-publicidad')) origen = 'publicidad';
+			else if (badge.classList.contains('badge-recomendacion')) origen = 'recomendacion';
+			else if (badge.classList.contains('badge-mkt')) origen = 'mkt';
+		}
 
 		card.querySelectorAll('tbody tr').forEach(tr=>{
 			persianas++;
 
 			const t = tr.querySelector('td:nth-child(4)');
 			const g = tr.querySelector('td:nth-child(6)');
+			const totalFila = t ? parseFloat(t.innerText.replace(/[^0-9.]/g,'')) : 0;
 
-			if(t) total += parseFloat(t.innerText.replace(/[^0-9.]/g,''));
+			if(t) total += totalFila;
 			if(g) ganancia += parseFloat(g.innerText.replace(/[^0-9.]/g,''));
+
+			if(origen === 'publicidad') totalPub += totalFila;
+			else if(origen === 'recomendacion') totalRec += totalFila;
+			else if(origen === 'mkt') totalMkt += totalFila;
 		});
 	});
 
-	document.getElementById('bVentas').textContent = ventas;
-	document.getElementById('bPersianas').textContent = persianas;
-	document.getElementById('bTotal').textContent = total.toLocaleString();
-	document.getElementById('bGanancia').textContent = Math.round(ganancia).toLocaleString();
-}
+	// badges generales
+	bVentas.textContent = ventas;
+	bPersianas.textContent = persianas;
+	bTotal.textContent = total.toLocaleString();
+	bGanancia.textContent = Math.round(ganancia).toLocaleString();
 
+	// porcentajes
+	const pct = v => total > 0 ? Math.round((v / total) * 100) : 0;
+
+	bPubTotal.textContent = totalPub.toLocaleString();
+	bRecTotal.textContent = totalRec.toLocaleString();
+	bMktTotal.textContent = totalMkt.toLocaleString();
+
+	bPubPct.textContent = pct(totalPub) + '%';
+	bRecPct.textContent = pct(totalRec) + '%';
+	bMktPct.textContent = pct(totalMkt) + '%';
+}
 
 function initBuscadorVentas(){
 	const input = document.getElementById('ventasBuscador');
@@ -164,7 +193,7 @@ function renderVentas(data){
 
 				<div class="card-body p-0">
 					<div class="table-scroll table-scroll-ventas">
-						<table class="table table-sm mb-0">
+						<table class="table table-sm mb-0 table-fixed">
 							<thead class="table-light">
 								<tr>
 									<th>Fecha</th>

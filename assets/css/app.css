@@ -198,13 +198,15 @@ html, body{
 
 
 
-.ventas-badges{
+/*.ventas-badges{
 	display: flex;
 	gap: .4rem;
 	overflow-x: auto;
 	white-space: nowrap;
 	max-width: 100%;
 	-webkit-overflow-scrolling: touch;
+	width: 100%;
+	justify-content: flex-start;
 }
 
 .ventas-badges .badge{
@@ -218,8 +220,31 @@ html, body{
 
 .ventas-badges .badge{
 	scroll-snap-align: start;
+}*/
+
+.ventas-badges{
+	display: flex;
+	gap: .4rem;
+	overflow-x: auto;
+	white-space: nowrap;
+	width: 100%;
+	scroll-snap-type: x mandatory;
 }
 
+.ventas-badges .badge{
+	flex-shrink: 0;
+	scroll-snap-align: start;
+}
+
+@media (min-width: 768px){
+	.ventas-badges{
+		overflow-x: visible;
+	}
+	.ventas-badges .badge{
+		flex: 1 1 auto;
+		text-align: center;
+	}
+}
 
 /* Quitar scroll feo en iOS */
 .ventas-badges::-webkit-scrollbar{
@@ -244,4 +269,9 @@ html, body{
 .toast-danger {
 	border-left: 8px solid #dc3545 !important;
 	background: #fff5f5;
+}
+
+.table-fixed{
+	table-layout: fixed;
+	width: 100%;
 }

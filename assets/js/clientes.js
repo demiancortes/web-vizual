@@ -3,6 +3,7 @@
    ========================= */
 let clientesData = [];
 let clientesFiltrados = [];
+let formatosClienteBindeados = false;
 
 /* =========================
    Init de la vista
@@ -35,8 +36,8 @@ function cargarClientes() {
 		}
 	})
 	.finally(() => {
-			ocultarOverlay('clientes');
-		});
+		ocultarOverlay('clientes');
+	});
 }
 
 /* =========================
@@ -56,7 +57,7 @@ function initBuscadorClientes() {
 			(c.nombre || '').toLowerCase().includes(q) ||
 			(c.fraccionamiento || '').toLowerCase().includes(q) ||
 			(c.telefono || '').toLowerCase().includes(q)
-		);
+			);
 
 		renderClientes();
 	});
@@ -141,7 +142,7 @@ function renderClientes() {
 						📋
 					</button>
 				</td>
-			</tr>`;
+		</tr>`;
 	});
 
 	html += `
@@ -153,6 +154,26 @@ function renderClientes() {
 	`;
 
 	cont.innerHTML = html;
+}
+
+function recalcularPendienteCliente() {
+
+	formatearImporte(editClienteTotal);
+	formatearImporte(editClienteAnticipo);
+
+	const total = parseFloat(editClienteTotal.value) || 0;
+	const anticipo = parseFloat(editClienteAnticipo.value) || 0;
+
+	editClientePendiente.value = (total - anticipo).toFixed(2);
+}
+
+function bindFormatoImportesCliente() {
+
+	if (formatosClienteBindeados) return;
+	formatosClienteBindeados = true;
+
+	editClienteTotal.addEventListener('blur', recalcularPendienteCliente);
+	editClienteAnticipo.addEventListener('blur', recalcularPendienteCliente);
 }
 
 function cargarUbicacionesCliente() {
@@ -197,6 +218,14 @@ function abrirModalEditarCliente(id) {
 	editClienteAnticipo.value = c.anticipo || 0;
 	editClientePendiente.value = c.pendiente || 0;
 
+	// Formatear valores iniciales
+	formatearImporte(editClienteTotal);
+	formatearImporte(editClienteAnticipo);
+	formatearImporte(editClientePendiente);
+
+	// 🔑 Bind SOLO la primera vez
+	bindFormatoImportesCliente();
+
 	const modalEl = document.getElementById('modalEditarCliente');
 
 	const modal = new bootstrap.Modal(modalEl, {
@@ -212,6 +241,141 @@ function abrirModalEditarCliente(id) {
 	modal.show();
 }
 
+function guardarEdicionCliente() {
+
+	const id = editClienteId.value;
+	if (!id) return;
+
+	// 🔹 Nombre
+	const nombre = editClienteNombre.value.trim();
+	if (!nombre) {
+		mostrarAlerta('warning', 'Captura el nombre del cliente', 'alertEditarCliente');
+		editClienteNombre.focus();
+		return;
+	}
+
+	// 🔹 Teléfono
+	const telefono = editClienteTelefono.value.trim();
+	if (!telefono) {
+		mostrarAlerta('warning', 'Captura el teléfono del cliente', 'alertEditarCliente');
+		editClienteTelefono.focus();
+		return;
+	}
+	if (!/^\d{7,}$/.test(telefono)) {
+		mostrarAlerta(
+			'warning',
+			'El teléfono debe contener solo números y al menos 7 dígitos',
+			'alertEditarCliente'
+		);
+		editClienteTelefono.focus();
+		return;
+	}
+
+	// 🔹 Domicilio
+	const domicilio = editClienteDomicilio.value.trim();
+	if (!domicilio) {
+		mostrarAlerta('warning', 'Captura el domicilio del cliente', 'alertEditarCliente');
+		editClienteDomicilio.focus();
+		return;
+	}
+
+	// 🔹 Fraccionamiento
+	const fraccionamiento = editClienteFraccionamiento.value.trim();
+	if (!fraccionamiento) {
+		mostrarAlerta('warning', 'Captura el fraccionamiento del cliente', 'alertEditarCliente');
+		editClienteFraccionamiento.focus();
+		return;
+	}
+
+	// 🔹 Ubicación
+	const ubicacion = editClienteUbicacion.value;
+	if (!ubicacion) {
+		mostrarAlerta('warning', 'Selecciona la ubicación del cliente', 'alertEditarCliente');
+		editClienteUbicacion.focus();
+		return;
+	}
+
+	// 🔹 Total
+	const total = parseFloat(editClienteTotal.value);
+	if (isNaN(total) || total <= 0) {
+		mostrarAlerta('warning', 'Captura un total válido mayor a 0', 'alertEditarCliente');
+		editClienteTotal.focus();
+		return;
+	}
+
+	// 🔹 Anticipo
+	const anticipo = parseFloat(editClienteAnticipo.value);
+	if (isNaN(anticipo) || anticipo < 0) {
+		mostrarAlerta('warning', 'Captura un anticipo válido', 'alertEditarCliente');
+		editClienteAnticipo.focus();
+		return;
+	}
+
+	// 🔹 Pendiente (regla negocio)
+	const pendiente = total - anticipo;
+	if (pendiente < 0) {
+		mostrarAlerta(
+			'warning',
+			'El anticipo no puede ser mayor al total',
+			'alertEditarCliente'
+		);
+		editClienteAnticipo.focus();
+		return;
+	}
+
+	// 🔹 Payload
+	const payload = {
+		id,
+		nombre,
+		telefono,
+		domicilio,
+		fraccionamiento,
+		ubicacion,
+		total,
+		anticipo,
+		pendiente
+	};
+
+	// 🔹 Envío
+	fetch('api/clientes_modificar.php', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(payload)
+	})
+	.then(r => r.json())
+	.then(resp => {
+
+		if (!resp.ok) {
+			mostrarAlerta(
+				'danger',
+				resp.error || 'Error al guardar los cambios',
+				'alertEditarCliente'
+			);
+			return;
+		}
+
+		mostrarAlerta(
+			'success',
+			'Cliente actualizado correctamente',
+			'alertEditarCliente'
+		);
+
+		setTimeout(() => {
+			const modal = bootstrap.Modal.getInstance(
+				document.getElementById('modalEditarCliente')
+			);
+			modal.hide();
+			cargarClientes();
+		}, 600);
+	})
+	.catch(() => {
+		mostrarAlerta(
+			'danger',
+			'Error de conexión',
+			'alertEditarCliente'
+		);
+	});
+}
 
 /* =========================
    Registro de la vista
