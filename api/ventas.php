@@ -24,7 +24,9 @@ SELECT
   c.nombre,
   c.telefono,
   c.fraccionamiento,
-  c.ubicacion
+  c.domicilio,
+  c.ubicacion, 
+  v.ctrl
 FROM ventas v
 JOIN clientes c ON c.id = v.cliente_id
 WHERE v.fecha_cotizacion BETWEEN :desde AND :hasta

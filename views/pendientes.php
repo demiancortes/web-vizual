@@ -13,8 +13,10 @@
 		</div>
 	</div>
 
-	<div id="pendientesHeader"class="row g-2 mb-3 align-items-center">
-		<div class="col-12 col-md-7">
+	<div id="pendientesHeader" class="row g-2 mb-3 align-items-center">
+
+		<!-- Buscador -->
+		<div class="col-12 col-md-6">
 			<div class="input-group w-100">
 				<input
 				type="search"
@@ -23,11 +25,28 @@
 				placeholder="🔍 Buscar cliente o fraccionamiento">
 			</div>
 		</div>
-		<div class="col-12 col-md-5 text-md-end">
-			<div id="badgeTotalPendientes"></div>
+
+		<!-- Contenedor de badges -->
+		<div class="col-12 col-md-6">
+			<div class="d-flex  justify-content-md-end align-items-center gap-2">
+
+				<div id="badgeTotalPendientes"></div>
+
+				<span
+				onclick="abrirPedidoModal()"
+				title="Ver pedido 🛒"
+				class="badge bg-primary"
+				style="cursor:pointer;">
+				Ver pedido 🛒
+			</span>
+
 		</div>
 	</div>
 
-	<div id="pendientesResultado"></div>
+</div>
+
+
+<div id="pendientesResultado"></div>
 </div>
 <?php include __DIR__ . '/modals/modal_pendientes.php'; ?>
+<?php include __DIR__ . '/modals/modal_pedido.php'; ?>

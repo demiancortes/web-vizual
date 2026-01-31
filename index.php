@@ -2,8 +2,13 @@
 <html lang="es">
 <head>
 	<meta charset="utf-8">
-	<title>Vizual | Dashboard</title>
+	<title>Vizual | Panel de Control</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+	<link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+	<link rel="manifest" href="assets/icons/site.webmanifest">
 
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,43 +38,29 @@
 
 	<!-- Toast Global -->
 	<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index:1100;">
-		<div
-		id="toastGlobal"
-		class="toast align-items-center border-0 shadow"
-		role="alert"
-		aria-live="assertive"
-		aria-atomic="true">
+		<div id="toastGlobal" class="toast align-items-center border-0 shadow" role="alert" aria-live="assertive" aria-atomic="true">
 
-		<div class="d-flex">
-			<div
-			id="toastGlobalTexto"
-			class="toast-body fw-semibold text-dark">
-			Mensaje
+			<div class="d-flex">
+				<div id="toastGlobalTexto" class="toast-body fw-semibold text-dark"> Mensaje</div>
+				<button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast">
+				</button>
+			</div>
 		</div>
+	</div>
 
-		<button
-		type="button"
-		class="btn-close me-2 m-auto"
-		data-bs-dismiss="toast">
-	</button>
-</div>
-</div>
-</div>
-
-
-
-<!-- Bootstrap JS (SIN defer, SIN async) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/utils.js"></script>
-<script src="assets/js/helpers.js"></script>
-<script src="assets/js/dashboard.js"></script>
-<script src="assets/js/ventas.js"></script>
-<script src="assets/js/venta.js"></script>
-<script src="assets/js/pendientes.js"></script>
-<script src="assets/js/clientes.js"></script>
-<script src="assets/js/gasolina.js"></script>
-<script src="assets/js/publicidad.js"></script>
-<script src="assets/js/router.js"></script>
-<script src="assets/js/app.js"></script>
+	<!-- Bootstrap JS (SIN defer, SIN async) -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="assets/js/utils.js"></script>
+	<script src="assets/js/helpers.js"></script>
+	<script src="assets/js/dashboard.js"></script>
+	<script src="assets/js/ventas.js"></script>
+	<script src="assets/js/venta.js"></script>
+	<script src="assets/js/pendientes.js"></script>
+	<script src="assets/js/clientes.js"></script>
+	<script src="assets/js/gasolina.js"></script>
+	<script src="assets/js/publicidad.js"></script>
+	<script src="assets/js/reporte_anual.js"></script>
+	<script src="assets/js/router.js"></script>
+	<script src="assets/js/app.js"></script>
 </body>
 </html>

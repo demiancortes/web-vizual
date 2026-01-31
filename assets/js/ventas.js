@@ -61,8 +61,8 @@ function recalcularBadgesVentas(){
 		card.querySelectorAll('tbody tr').forEach(tr=>{
 			persianas++;
 
-			const t = tr.querySelector('td:nth-child(4)');
-			const g = tr.querySelector('td:nth-child(6)');
+			const t = tr.querySelector('td:nth-child(5)');
+			const g = tr.querySelector('td:nth-child(7)');
 			const totalFila = t ? parseFloat(t.innerText.replace(/[^0-9.]/g,'')) : 0;
 
 			if(t) total += totalFila;
@@ -181,7 +181,7 @@ function renderVentas(data){
 						<div class="fw-bold">
 							${v.nombre} | 📞 (${formatoTelefono(v.telefono)})
 						</div>
-						<small>📍 ${v.fraccionamiento}</small>
+						<small>📍 ${v.domicilio} ${v.fraccionamiento}</small>
 					</div>
 					<div class="d-flex gap-2">
 						${badgeUbicacion(v.ubicacion)}
@@ -199,6 +199,7 @@ function renderVentas(data){
 									<th>Fecha</th>
 									<th>Modelo</th>
 									<th>Medida</th>
+									<th>Cadena</th>
 									<th class="text-end">Total</th>
 									<th class="text-end">Costo</th>
 									<th class="text-end">Ganancia</th>
@@ -215,6 +216,7 @@ function renderVentas(data){
 				<td>${formatoFecha(v.fecha_cotizacion)}</td>
 				<td>${v.modelo}</td>
 				<td>${v.medida_real || `${v.largo} x ${v.alto}`}</td>
+				<td>${v.ctrl}</td>
 				<td class="text-end">$${Number(v.total).toLocaleString(undefined,{minimumFractionDigits:2})}</td>
 				<td class="text-end">$${Number(v.costo).toLocaleString(undefined,{minimumFractionDigits:2})}</td>
 				<td class="text-end fw-bold text-success">

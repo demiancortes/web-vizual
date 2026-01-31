@@ -118,6 +118,38 @@ function copiarTexto(texto) {
 		});
 }
 
+/*function copiarTexto(texto) {
+	try {
+		const textarea = document.createElement('textarea');
+		textarea.value = texto;
+
+		// 🔑 CLAVES PARA MÓVIL
+		textarea.setAttribute('readonly', '');
+		textarea.style.position = 'absolute';
+		textarea.style.left = '-9999px';
+		textarea.style.fontSize = '12pt'; // evita zoom en iOS
+
+		document.body.appendChild(textarea);
+
+		textarea.focus();
+		textarea.select();
+		textarea.setSelectionRange(0, textarea.value.length);
+
+		const ok = document.execCommand('copy');
+		document.body.removeChild(textarea);
+
+		if (ok) {
+			mostrarToast('Pedido copiado al portapapeles', 'success');
+		} else {
+			throw new Error('execCommand falló');
+		}
+
+	} catch (e) {
+		mostrarToast('No se pudo copiar el pedido', 'danger');
+	}
+}*/
+
+
 function formatearMedidaPedido(medida) {
 	if (!medida) return '';
 
@@ -213,4 +245,97 @@ function soloNumerosDecimal(input) {
 	input.value = input.value
 		.replace(/[^0-9.]/g, '')   // quita letras
 		.replace(/(\..*)\./g, '$1'); // solo un punto
+}
+
+function getPedidoTemporal() {
+	const raw = localStorage.getItem(PEDIDO_STORAGE_KEY);
+	return raw ? JSON.parse(raw) : [];
+}
+
+function setPedidoTemporal(items) {
+	localStorage.setItem(
+		PEDIDO_STORAGE_KEY,
+		JSON.stringify(items)
+	);
+}
+
+function clearPedidoTemporal() {
+	localStorage.removeItem(PEDIDO_STORAGE_KEY);
+}
+
+function agruparPedidoPorCliente() {
+	const pedido = getPedidoTemporal();
+	const grupos = {};
+
+	pedido.forEach(i => {
+		const key = `${i.cliente}|${i.fraccionamiento}`;
+
+		if (!grupos[key]) {
+			grupos[key] = {
+				cliente: i.cliente,
+				fraccionamiento: i.fraccionamiento,
+				items: []
+			};
+		}
+
+		grupos[key].items.push(i);
+	});
+
+	return Object.values(grupos);
+}
+
+function formatearMedidaCadena(medidas, cadena) {
+	if (!medidas) return '—';
+
+	// Normalizar medidas (ej: "0.9 x 1.45" → "090X145")
+	let normalizada = medidas
+		.replace(/\s+/g, '')   // quitar espacios
+		.replace('x', 'X');    // forzar X mayúscula
+
+	// Convertir a formato 090X145 si vienen decimales
+	const partes = normalizada.split('X');
+
+	if (partes.length === 2) {
+		const a = Math.round(parseFloat(partes[0]) * 100)
+			.toString().padStart(3, '0');
+		const b = Math.round(parseFloat(partes[1]) * 100)
+			.toString().padStart(3, '0');
+
+		normalizada = `${a}X${b}`;
+	}
+
+	// Cadena humana
+	let cadenaTxt = '';
+	if (cadena) {
+		if (cadena.toUpperCase() === 'IZQ') cadenaTxt = ' Izquierda';
+		if (cadena.toUpperCase() === 'DER') cadenaTxt = ' Derecha';
+	}
+
+	return normalizada + cadenaTxt;
+}
+
+
+function agruparPedidoPorClienteYModelo() {
+	const pedido = getPedidoTemporal();
+	const grupos = {};
+
+	pedido.forEach(i => {
+		const keyCliente = `${i.cliente}|${i.fraccionamiento}`;
+
+		if (!grupos[keyCliente]) {
+			grupos[keyCliente] = {
+				cliente: i.cliente,
+				fraccionamiento: i.fraccionamiento,
+				modelos: {}
+			};
+		}
+
+		if (!grupos[keyCliente].modelos[i.modelo]) {
+			grupos[keyCliente].modelos[i.modelo] = [];
+		}
+
+		grupos[keyCliente].modelos[i.modelo].push(i);
+	});
+
+	return Object.values(grupos);
 }

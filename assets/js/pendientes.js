@@ -121,13 +121,13 @@ function renderPendientes() {
 						<div class="fw-bold">
 							${v.nombre} | 📞 (${formatoTelefono(v.telefono)})
 						</div>
-						<small>📍 ${v.fraccionamiento}</small>
+						<small>📍 ${v.domicilio} ${v.fraccionamiento}</small>
 					</div>
 				<div>
 					<span class="badge bg-success">
 						$${Number(v.pendiente || 0).toLocaleString()}
 					</span>
-					<span onclick="accionGenerarPedido(${v.idCliente})" title="Generar pedido 🧾" class="badge bg-secondary">🧾</span>
+					<span onclick="agregarPedidoCliente(${v.idCliente})" title="Agregar a pedido 🛒" class="badge bg-secondary">🛒</span>
 					<span onclick="abrirModalInstalado(${v.idCliente})" title="Marcar instalado ✔️" class="badge bg-primary">🛠️</span>
 	  					
 					
@@ -143,8 +143,9 @@ function renderPendientes() {
 							<colgroup>
 								<col style="width:15%">
 								<col style="width:8%">
-								<col style="width:25%">
+								<col style="width:20%">
 								<col style="width:16%">
+								<col style="width:10%">
 								<col style="width:10%">
 								<col style="width:16%">
 							</colgroup>
@@ -155,6 +156,7 @@ function renderPendientes() {
 									<th>Tipo</th>
 									<th>Modelo</th>
 									<th>Medida</th>
+									<th>Cadena</th>
 									<th class="text-center">Días</th>
 									<th title="🟢 A tiempo&#10;🟠 En proceso&#10;🔴 Retrasado">
 										Estado
@@ -200,6 +202,7 @@ function renderPendientes() {
 				<td><span class="badge bg-${badgeTipo}">${v.tipo}</span></td>
 				<td>${v.modelo || '—'}</td>
 				<td>${v.medida_real || (v.largo && v.alto ? `${v.largo} x ${v.alto}` : '—')}</td>
+				<td class="">${v.ctrl}</td>
 				<td class="text-center">${v.dias_habiles}</td>
 				<td>
 					<span class="badge bg-${badgeEstado}">
@@ -375,6 +378,247 @@ function generarTextoPedido(items) {
 	});
 
 	return texto.trim();
+}
+
+let modalPedido = null;
+
+function abrirPedidoModal() {
+	renderPedidoModal();
+
+	const modalEl = document.getElementById('modalPedidoTemporal');
+	if (!modalEl) {
+		console.warn('Modal pedido no encontrado');
+		return;
+	}
+
+	if (!modalPedido) {
+		modalPedido = new bootstrap.Modal(modalEl);
+	}
+
+	modalPedido.show();
+}
+
+
+const PEDIDO_STORAGE_KEY = 'pedidoTemporalProveedor';
+
+function agregarPersianasAPedido(persianasCliente) {
+	const pedido = getPedidoTemporal();
+
+	console.log(persianasCliente);
+
+	persianasCliente.forEach(p => {
+		const existe = pedido.some(
+			i => i.idPersiana === p.idPersiana
+		);
+
+		if (!existe) {
+			pedido.push({
+				idPersiana: p.idPersiana,
+				cliente: p.cliente,
+				fraccionamiento: p.fraccionamiento,
+				modelo: p.modelo,
+				medidas: p.medidas,
+				cadena: p.cadena,
+				costo: Number(p.costo)
+			});
+		}
+	});
+
+	setPedidoTemporal(pedido);
+}
+
+function quitarPersianaPedido(idPersiana) {
+	let pedido = getPedidoTemporal();
+
+	pedido = pedido.filter(
+		i => i.idPersiana !== idPersiana
+	);
+
+	setPedidoTemporal(pedido);
+	renderPedidoModal();
+	actualizarBadgePedido(); // 👈
+	mostrarToast('Persiana quitada del pedido', 'danger');
+}
+
+
+function calcularTotalPedido() {
+	const pedido = getPedidoTemporal();
+	return pedido.reduce(
+		(acc, i) => acc + Number(i.costo),
+		0
+	);
+}
+
+function obtenerClientesPedido() {
+	const pedido = getPedidoTemporal();
+	const map = {};
+
+	pedido.forEach(i => {
+		const key = `${i.cliente}|${i.fraccionamiento}`;
+		map[key] = `${i.cliente} – ${i.fraccionamiento}`;
+	});
+
+	return Object.values(map);
+}
+
+function renderPedidoModal() {
+	const contItems = document.getElementById('pedidoItems');
+	const contTotal = document.getElementById('pedidoTotal');
+
+	if (!contItems || !contTotal) return;
+
+	const grupos = agruparPedidoPorClienteYModelo();
+
+	if (!grupos.length) {
+		contItems.innerHTML = `
+			<div class="text-center text-muted small py-3">
+				No hay persianas en el pedido
+			</div>
+		`;
+		contTotal.textContent = '$0.00';
+		return;
+	}
+
+	let html = '';
+
+	grupos.forEach(grupo => {
+		html += `
+			<div class="mb-4 pb-2 border-bottom">
+
+				<!-- Cliente -->
+				<div class="fw-semibold mb-2">
+					${grupo.cliente} – ${grupo.fraccionamiento}
+				</div>
+		`;
+
+		Object.entries(grupo.modelos).forEach(([modelo, items]) => {
+			html += `
+				<div class="ms-2 mb-2">
+
+					<!-- Modelo -->
+					<div class="fw-semibold text-muted mb-1">
+						${modelo}
+					</div>
+			`;
+
+			items.forEach(i => {
+				html += `
+					<div class="d-flex justify-content-between align-items-start ms-2 mb-1">
+						<div class="small">
+							${formatearMedidaCadena(i.medidas, i.cadena)}
+						</div>
+
+						<div class="text-end ms-2">
+							<span class="fw-semibold">
+								$${Number(i.costo).toFixed(2)}
+							</span>
+							<span
+								class="badge bg-danger ms-2"
+								style="cursor:pointer"
+								onclick="quitarPersianaPedido(${i.idPersiana})">
+								Quitar
+							</span>
+						</div>
+					</div>
+				`;
+			});
+
+			html += `</div>`;
+		});
+
+		html += `</div>`;
+	});
+
+	contItems.innerHTML = html;
+	contTotal.textContent = `$${calcularTotalPedido().toFixed(2)}`;
+}
+
+
+
+function copiarPedido() {
+	const grupos = agruparPedidoPorClienteYModelo();
+	if (!grupos.length) return;
+
+	let texto = '';
+
+	grupos.forEach(grupo => {
+		Object.entries(grupo.modelos).forEach(([modelo, items]) => {
+			texto += `${modelo}\n`;
+			items.forEach(i => {
+				texto += `${formatearMedidaCadena(i.medidas, i.cadena)}\n`;
+			});
+			texto += '\n';
+		});
+	});
+
+	texto += `TOTAL: $${calcularTotalPedido().toFixed(2)}`;
+
+	// 👇 COPY PRIMERO
+	copiarTexto(texto.trim());
+
+	// 👇 LIMPIAR DESPUÉS
+	clearPedidoTemporal();
+	renderPedidoModal();
+	actualizarBadgePedido();
+}
+
+
+function limpiarPedido() {
+	clearPedidoTemporal();
+	renderPedidoModal();
+	actualizarBadgePedido(); // 👈
+}
+
+
+function agregarPedidoCliente(idCliente) {
+
+	if (!Array.isArray(pendientesFiltrados)) return;
+
+	// Tomar TODAS las persianas de ese cliente
+	const persianasCliente = pendientesFiltrados
+		.filter(v => v.idCliente === idCliente)
+		.map(v => ({
+			// ID único de la persiana (clave para no duplicar)
+			idPersiana: v.idVentaDetalle || v.idPersiana || v.id, 
+
+			// Datos humanos (solo visuales)
+			cliente: v.nombre,
+			fraccionamiento: v.fraccionamiento,
+
+			// Datos reales del pedido
+			modelo: v.modelo || '—',
+			medidas: v.medida_real || (
+				v.largo && v.alto ? `${v.largo} x ${v.alto}` : '—'
+			),
+			cadena: v.ctrl || '—',
+
+			// Costo (OBLIGATORIO que sea número)
+			costo: Number(v.costo || v.costo_proveedor || 0)
+		}));
+
+	if (!persianasCliente.length) return;
+
+	// Agregar al pedido temporal
+	agregarPersianasAPedido(persianasCliente);
+
+	// Actualizar badge
+	actualizarBadgePedido();
+	mostrarToast(`Pedido actualizado (${persianasCliente.length} persiana(s) agregada(s))`);
+}
+
+
+function actualizarBadgePedido() {
+	const pedido = getPedidoTemporal();
+	const badge = document.getElementById('badgeVerPedido');
+
+	if (!badge) return;
+
+	if (!pedido.length) {
+		badge.textContent = 'Ver pedido';
+		return;
+	}
+
+	badge.textContent = `Ver pedido (${pedido.length})`;
 }
 
 

@@ -102,7 +102,7 @@
 
 		<div class="col-6 col-md-3">
 			<div class="card-menu" onclick="cargarVista('reporte_anual')">
-				<div class="icon text-success"><i class="bi bi-bar-chart-line"></i></div>
+				<div class="icon text-success">📊</div>
 				<div class="title">Reporte anual</div>
 			</div>
 		</div>

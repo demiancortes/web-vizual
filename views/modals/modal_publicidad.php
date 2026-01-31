@@ -18,6 +18,17 @@
 					<input type="number" id="pubMonto" class="form-control form-control-sm" step="0.01" placeholder="0.00">
 				</div>
 
+				<div class="mb-2">
+					<label for="pubMensajes" class="form-label small mb-1">Mensajes</label>
+					<input type="number" id="pubMensajes" class="form-control form-control-sm" min="0" value="0">
+				</div>
+
+				<div class="mb-2">
+					<label for="pubCitas" class="form-label small mb-1">Citas</label>
+					<input type="number" id="pubCitas" class="form-control form-control-sm" min="0" value="0">
+				</div>
+
+
 				<div>
 					<label for="pubNota" class="form-label small mb-1">Nota</label>
 					<input type="text" id="pubNota" class="form-control form-control-sm" placeholder="Publicidad mes">

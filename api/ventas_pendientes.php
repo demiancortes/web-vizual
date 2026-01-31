@@ -12,7 +12,7 @@ require __DIR__ . '/../db.php';
    ========================= */
    $sql = "
    SELECT
-   v.id,
+   v.id idVenta,
    v.ctrl, 
    v.tipo,
    v.fecha_cotizacion,
@@ -24,7 +24,9 @@ require __DIR__ . '/../db.php';
    c.nombre,
    c.telefono,
    c.fraccionamiento, 
+   c.domicilio, 
    c.pendiente, 
+   v.costo, 
    c.id
    FROM ventas v
    JOIN clientes c ON c.id = v.cliente_id
@@ -87,18 +89,20 @@ require __DIR__ . '/../db.php';
 	}
 
 	$data[] = [
-		'id'               => $r['id'],
+		'id'               => $r['idVenta'],
 		'tipo'             => $r['tipo'],
 		'nombre'           => $r['nombre'],
 		'telefono'         => $r['telefono'],
 		'fraccionamiento'  => $r['fraccionamiento'],
+		'domicilio'			 => $r['domicilio'],
 		'modelo'           => $r['modelo'],
 		'fecha_cotizacion' => $r['fecha_cotizacion'],
 		'medida_real'      => $r['medida_real'],
 		'largo'            => $r['largo'],
 		'alto'             => $r['alto'],
 		'pendiente' 		 => $r['pendiente'],
-		'ctrl' 		 => $r['ctrl'],
+		'ctrl' 		 		 => $r['ctrl'],
+		'costo' 		 		 => $r['costo'],
 		'dias_habiles'     => $diasHabiles,
 		'estado'           => $estado, 
 		'idCliente' 		 => $r['id']

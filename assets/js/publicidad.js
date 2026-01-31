@@ -81,6 +81,8 @@ function renderPublicidad() {
 						<tr>
 							<th style="width:110px">Fecha</th>
 							<th style="width:100px">Monto</th>
+							<th style="width:80px">Msgs</th>
+							<th style="width:80px">Citas</th>
 							<th>Nota</th>
 							<th></th>
 						</tr>
@@ -92,18 +94,16 @@ function renderPublicidad() {
 		html += `
 			<tr>
 				<td>${formatoFecha(g.fecha)}</td>
-				<td class="text-end">
-					$${Number(g.monto).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-				</td>
+				<td class="text-end">$${Number(g.monto).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
+				<td class="text-center">${g.mensajes ?? 0}</td>
+				<td class="text-center">${g.citas ?? 0}</td>
 				<td class="text-wrap">${g.nota || '—'}</td>
 				<td class="text-center">
 					<button class="btn btn-sm btn-outline-danger"
-						title="Eliminar este gasto"
-						onclick="eliminarPublicidad(${g.id})">
-						🗑️
-					</button>
+						onclick="eliminarPublicidad(${g.id})">🗑️</button>
 				</td>
-			</tr>`;
+			</tr>`
+			;
 	});
 
 	html += `
@@ -149,6 +149,8 @@ function abrirModalPublicidad() {
 	document.getElementById('pubFecha').value = hoy;
 	document.getElementById('pubMonto').value = '';
 	document.getElementById('pubNota').value = '';
+	document.getElementById('pubMensajes').value = 0;
+	document.getElementById('pubCitas').value = 0;
 
 	modalPublicidad.show();
 }
@@ -160,6 +162,9 @@ function guardarPublicidad() {
 	const fecha = document.getElementById('pubFecha').value;
 	const monto = document.getElementById('pubMonto').value;
 	const nota  = document.getElementById('pubNota').value;
+
+	const mensajes = document.getElementById('pubMensajes').value || 0;
+	const citas    = document.getElementById('pubCitas').value || 0;
 
 	if (!fecha || !monto) {
 		alert('Fecha y monto son obligatorios');
@@ -176,7 +181,8 @@ function guardarPublicidad() {
 	fetch('api/gastos_publicidad.php', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ fecha, monto, nota })
+		body: JSON.stringify({ fecha, monto, mensajes, citas, nota })
+
 	})
 	.then(r => r.json())
 	.then(resp => {
