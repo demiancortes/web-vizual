@@ -229,7 +229,7 @@ function inicializarVentaListeners() {
 
 		/* 🎯 Foco a ancho */
 		setTimeout(() => {
-			perAncho.focus();
+			perCadena.focus();
 		}, 300);
 	});
 

@@ -275,3 +275,8 @@ html, body{
 	table-layout: fixed;
 	width: 100%;
 }
+
+.reporte-subfila {
+	font-size: 0.88rem;
+	color: #555;
+}
