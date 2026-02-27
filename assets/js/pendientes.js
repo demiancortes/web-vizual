@@ -78,13 +78,18 @@ function renderPendientes() {
 	}
 
 	/* =========================
+	   Ordenar por idCliente
+	   ========================= */
+	pendientesFiltrados.sort((a,b)=> a.idCliente - b.idCliente);
+
+	/* =========================
 	   Total general por recibir
 	   (una sola vez por cliente)
 	   ========================= */
 	const clientesUnicos = {};
 	pendientesFiltrados.forEach(v => {
-		if (!clientesUnicos[v.nombre]) {
-			clientesUnicos[v.nombre] = Number(v.pendiente || 0);
+		if (!clientesUnicos[v.idCliente]) {
+			clientesUnicos[v.idCliente] = Number(v.pendiente || 0);
 		}
 	});
 
@@ -101,7 +106,7 @@ function renderPendientes() {
 		/* =========================
 		   Cambio de cliente
 		   ========================= */
-		if (clienteActual !== v.nombre) {
+		if (clienteActual !== v.idCliente) {
 
 			if (clienteActual !== null) {
 				html += `
@@ -112,7 +117,7 @@ function renderPendientes() {
 			</div>`;
 			}
 
-			clienteActual = v.nombre;
+			clienteActual = v.idCliente;
 
 			html += `
 			<div class="card mb-3 shadow-sm">
@@ -125,15 +130,11 @@ function renderPendientes() {
 					</div>
 				<div>
 					<span class="badge bg-success">
-						$${Number(v.pendiente || 0).toLocaleString()}
+						$${Number(clientesUnicos[v.idCliente]).toLocaleString()}
 					</span>
 					<span onclick="agregarPedidoCliente(${v.idCliente})" title="Agregar a pedido 🛒" class="badge bg-secondary">🛒</span>
 					<span onclick="abrirModalInstalado(${v.idCliente})" title="Marcar instalado ✔️" class="badge bg-primary">🛠️</span>
-	  					
-					
 				</div>
-					
-					
 				</div>
 
 				<div class="card-body p-0">
@@ -163,7 +164,7 @@ function renderPendientes() {
 									</th>
 								</tr>
 							</thead>
-				<tbody>`;
+							<tbody>`;
 		}
 
 		/* =========================
@@ -202,7 +203,7 @@ function renderPendientes() {
 				<td><span class="badge bg-${badgeTipo}">${v.tipo}</span></td>
 				<td>${v.modelo || '—'}</td>
 				<td>${v.medida_real || (v.largo && v.alto ? `${v.largo} x ${v.alto}` : '—')}</td>
-				<td class="">${v.ctrl}</td>
+				<td>${v.ctrl}</td>
 				<td class="text-center">${v.dias_habiles}</td>
 				<td>
 					<span class="badge bg-${badgeEstado}">

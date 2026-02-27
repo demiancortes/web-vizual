@@ -131,48 +131,49 @@ function cargarVentas(){
    RENDER
    ========================= */
 function renderVentas(data){
+
 	const cont = document.getElementById('ventasResultado');
 
 	if(!data.length){
 		cont.innerHTML = `
 			<div class="alert alert-secondary">
 				No hay ventas en este rango
-		</div>`;
+			</div>`;
 		return;
 	}
 
 	initBuscadorVentas();
 
 	/* =========================
-	   1️⃣ Totales por cliente
+	   1️⃣ Totales por CLIENTE (cliente_id)
 	   ========================= */
 	const totales = {};
 	data.forEach(v=>{
-		if(!totales[v.nombre]) totales[v.nombre] = 0;
-		totales[v.nombre] += parseFloat(v.total);
+		if(!totales[v.cliente_id]) totales[v.cliente_id] = 0;
+		totales[v.cliente_id] += parseFloat(v.total);
 	});
 
 	let html = '';
-	let clienteActual = null;
+	let grupoActual = null;
 
-	data.forEach((v, i) => {
+	data.forEach((v) => {
 
 		/* =========================
 		   Cambio de cliente
 		   ========================= */
-		if(clienteActual !== v.nombre){
+		if(grupoActual !== v.cliente_id){
 
-			// cerrar cliente anterior
-			if(clienteActual !== null){
+			// cerrar grupo anterior
+			if(grupoActual !== null){
 				html += `
-						</tbody>
-					</table>
+							</tbody>
+						</table>
+					</div>
 				</div>
-			</div>
-				</div>`;
+			</div>`;
 			}
 
-			clienteActual = v.nombre;
+			grupoActual = v.cliente_id;
 
 			html += `
 			<div class="card mb-3 shadow-sm">
@@ -186,7 +187,7 @@ function renderVentas(data){
 					<div class="d-flex gap-2">
 						${badgeUbicacion(v.ubicacion)}
 						<span class="badge bg-success">
-							$${totales[v.nombre].toLocaleString()}
+							$${totales[v.cliente_id].toLocaleString()}
 						</span>
 					</div>
 				</div>
@@ -205,13 +206,13 @@ function renderVentas(data){
 									<th class="text-end">Ganancia</th>
 								</tr>
 							</thead>
-				<tbody>`;
-			}
+							<tbody>`;
+		}
 
 		/* =========================
 		   Fila
 		   ========================= */
-			html += `
+		html += `
 			<tr>
 				<td>${formatoFecha(v.fecha_cotizacion)}</td>
 				<td>${v.modelo}</td>
@@ -223,17 +224,17 @@ function renderVentas(data){
 					$${Number(v.ganancia).toLocaleString(undefined,{minimumFractionDigits:2})}
 				</td>
 			</tr>`;
-		});
+	});
 
 	/* =========================
-	   Cierre FINAL (una sola vez)
+	   Cierre FINAL
 	   ========================= */
 	html += `
-				</tbody>
-			</table>
-		</div>
-	</div>
-	</div>`;
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>`;
 
 	cont.innerHTML = html;
 }

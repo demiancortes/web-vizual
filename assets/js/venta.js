@@ -305,59 +305,118 @@ function calcularPersiana() {
 
 function agregarPersiana() {
 
-	const modeloFinal = obtenerModeloSeleccionado();
+	let modeloFinal = obtenerModeloSeleccionado();
 
 	if (hayModelosEnSelect() && !perModelo.value) {
 		mostrarAlerta('warning', 'Selecciona un modelo de la lista');
 		return;
 	}
 
-	if (!modeloFinal) return mostrarAlerta('warning', 'Escribe el nombre del modelo');
-	if (!perCadena.value) return mostrarAlerta('warning', 'Selecciona la cadena');
-	if (!perAncho.value || perAncho.value <= 0) return mostrarAlerta('warning', 'Ancho inválido');
-	if (!perAlto.value || perAlto.value <= 0) return mostrarAlerta('warning', 'Alto inválido');
-	if (!perPrecio.value || perPrecio.value <= 0) return mostrarAlerta('warning', 'Precio inválido');
-	if (!perTotal.value || perTotal.value <= 0) return mostrarAlerta('warning', 'Total inválido');
+	if (!modeloFinal) 
+		return mostrarAlerta('warning', 'Escribe el nombre del modelo');
 
-	const ancho = parseFloat(perAncho.value);
-	const alto = parseFloat(perAlto.value);
+	/* =========================
+	   Extraer tipo desde modelo
+	   ========================= */
+	let tipo = "P";
+
+	if (modeloFinal.includes(" - ")) {
+		const partes = modeloFinal.split(" - ");
+		tipo = partes[0].trim();
+		modeloFinal = partes[1].trim();
+	}
+
+	/* =========================
+	   Validaciones por tipo
+	   ========================= */
+
+	if (tipo === "P") {
+		if (!perCadena.value) return mostrarAlerta('warning', 'Selecciona la cadena');
+		if (!perAncho.value || perAncho.value <= 0) return mostrarAlerta('warning', 'Ancho inválido');
+		if (!perAlto.value || perAlto.value <= 0) return mostrarAlerta('warning', 'Alto inválido');
+	}
+
+	if (tipo === "C") {
+		if (!perAncho.value || perAncho.value <= 0) return mostrarAlerta('warning', 'Ancho inválido');
+		if (!perAlto.value || perAlto.value <= 0) return mostrarAlerta('warning', 'Alto inválido');
+	}
+
+	if (!perPrecio.value || perPrecio.value <= 0) 
+		return mostrarAlerta('warning', 'Precio inválido');
+
+	if (!perTotal.value || perTotal.value <= 0) 
+		return mostrarAlerta('warning', 'Total inválido');
+
+	/* =========================
+	   Valores numéricos
+	   ========================= */
+	let ancho = parseFloat(perAncho.value) || 0;
+	let alto = parseFloat(perAlto.value) || 0;
 	const precio = parseFloat(perPrecio.value);
 	const total = parseFloat(perTotal.value);
 
-	const costo = (ancho < 1 ? 1 : ancho) * (alto < 1 ? 1 : alto) * precio;
-	const ganancia = total - costo;
+	let costo = 0;
+	let ctrl = perCadena.value || "N/A";
+	let medida_real = "—";
 
-	persianas.push({
-		modelo: modeloFinal,
-		cadena: perCadena.value,
-		ancho,
-		alto,
-		medida_real: `${ancho.toFixed(2)} x ${alto.toFixed(2)}`,
-		precio,
-		costo,
-		total,
-		ganancia
-	});
+	/* =========================
+	   Cálculo según tipo
+	   ========================= */
+	switch (tipo) {
 
-	guardarPersianasStorage();
-	renderTablaPersianas();
-	actualizarTotalVenta();
-	actualizarEstadoVenta();
-	limpiarFormularioPersiana();
-}
+		case "P": // Persiana
+			costo = (ancho < 1 ? 1 : ancho) * (alto < 1 ? 1 : alto) * precio;
+			medida_real = `${ancho.toFixed(2)} x ${alto.toFixed(2)}`;
+			break;
+
+		case "C": // Cortina
+    		costo = precio; // 👈 NO multiplicar
+    		medida_real = `${ancho.toFixed(2)} x ${alto.toFixed(2)}`;
+    		break;
+
+		case "T": // Tapiz
+			ancho = 0;
+			alto = 0;
+			ctrl = "N/A";
+			costo = precio;
+			medida_real = `0 x 0`;
+			break;
+		}
+
+		const ganancia = total - costo;
+
+		persianas.push({
+			tipo,
+			modelo: modeloFinal,
+			cadena: ctrl,
+			ancho,
+			alto,
+			medida_real,
+			precio,
+			costo,
+			total,
+			ganancia
+		});
+
+		guardarPersianasStorage();
+		renderTablaPersianas();
+		actualizarTotalVenta();
+		actualizarEstadoVenta();
+		limpiarFormularioPersiana();
+	}
 
 
 /* ======================================================
    TABLA
    ====================================================== */
 
-function renderTablaPersianas() {
+	function renderTablaPersianas() {
 
-	const tbody = document.getElementById('tablaPersianas');
-	tbody.innerHTML = '';
+		const tbody = document.getElementById('tablaPersianas');
+		tbody.innerHTML = '';
 
-	persianas.forEach((p, i) => {
-		tbody.innerHTML += `
+		persianas.forEach((p, i) => {
+			tbody.innerHTML += `
 		<tr>
 			<td>${p.modelo}</td>
 			<td>${p.cadena}</td>
@@ -374,66 +433,66 @@ function renderTablaPersianas() {
 				<button class="btn btn-sm btn-outline-danger"
 					onclick="eliminarPersiana(${i})">❌</button>
 			</td>
-		</tr>`;
-	});
-}
+			</tr>`;
+		});
+	}
 
 
-function eliminarPersiana(i) {
-	persianas.splice(i, 1);
-	guardarPersianasStorage();
-	renderTablaPersianas();
-	actualizarTotalVenta();
-	actualizarEstadoVenta();
-}
+	function eliminarPersiana(i) {
+		persianas.splice(i, 1);
+		guardarPersianasStorage();
+		renderTablaPersianas();
+		actualizarTotalVenta();
+		actualizarEstadoVenta();
+	}
 
 
-function cargarPersianaEnFormulario(i) {
+	function cargarPersianaEnFormulario(i) {
 
-	const p = persianas[i];
-	if (!p) return;
+		const p = persianas[i];
+		if (!p) return;
 
-	perModelo.value = p.modelo;
-	perModelo.dispatchEvent(new Event('change'));
-	perCadena.value = p.cadena;
-	perAncho.value = p.ancho;
-	perAlto.value = p.alto;
-	perMedidaReal.value = p.medida_real;
-	perPrecio.value = p.precio;
-	perTotal.value = p.total;
+		perModelo.value = p.modelo;
+		perModelo.dispatchEvent(new Event('change'));
+		perCadena.value = p.cadena;
+		perAncho.value = p.ancho;
+		perAlto.value = p.alto;
+		perMedidaReal.value = p.medida_real;
+		perPrecio.value = p.precio;
+		perTotal.value = p.total;
 
-	perAncho.focus();
-}
+		perAncho.focus();
+	}
 
 
 /* ======================================================
    TOTALES
    ====================================================== */
 
-function actualizarTotalVenta() {
+	function actualizarTotalVenta() {
 
-	const total = persianas.reduce((sum, p) => sum + p.total, 0);
-	venTotal.value = total.toFixed(2);
-	calcularPendiente();
-}
+		const total = persianas.reduce((sum, p) => sum + p.total, 0);
+		venTotal.value = total.toFixed(2);
+		calcularPendiente();
+	}
 
 
 /* ======================================================
    ESTADO VISUAL
    ====================================================== */
 
-function actualizarEstadoVenta() {
+	function actualizarEstadoVenta() {
 
-	const box = document.getElementById('estadoVenta');
-	if (!box) return;
+		const box = document.getElementById('estadoVenta');
+		if (!box) return;
 
-	if (persianas.length > 0) {
-		box.classList.remove('d-none');
-		box.innerHTML =
-	`ℹ️ Venta en progreso · ${persianas.length} persiana(s) · Total $${venTotal.value}`;
-} else {
-	box.classList.add('d-none');
-}
+		if (persianas.length > 0) {
+			box.classList.remove('d-none');
+			box.innerHTML =
+		`ℹ️ Venta en progreso · ${persianas.length} persiana(s) · Total $${venTotal.value}`;
+	} else {
+		box.classList.add('d-none');
+	}
 }
 
 
