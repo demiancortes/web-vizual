@@ -1,27 +1,24 @@
 <?php
 
-if (!isset($pdo)) {
+$env = parse_ini_file(__DIR__ . '/.env');
 
-		$host = 'localhost';
-		$db   = 'persianas_vizual';
-		$user = 'root';
-		$pass = '';
-		$charset = 'utf8mb4';
+$host = $env['DB_HOST'];
+$db   = $env['DB_NAME'];
+$user = $env['DB_USER'];
+$pass = $env['DB_PASS'];
 
-		$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+$charset = 'utf8mb4';
 
-		$options = [
-				PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-				PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-				PDO::ATTR_EMULATE_PREPARES   => false,
-				PDO::ATTR_PERSISTENT         => false
-		];
+$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 
-		try {
-				$pdo = new PDO($dsn, $user, $pass, $options);
-		} catch (PDOException $e) {
+$options = [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES => false,
+];
 
-				// en producción NO mostrar error real
-				die('Error de conexión');
-		}
+try {
+    $pdo = new PDO($dsn, $user, $pass, $options);
+} catch (PDOException $e) {
+    die('Error conexión BD');
 }
