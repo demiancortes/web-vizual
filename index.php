@@ -60,6 +60,7 @@
 	<script src="assets/js/gasolina.js"></script>
 	<script src="assets/js/publicidad.js"></script>
 	<script src="assets/js/reporte_anual.js"></script>
+	<script src="assets/js/calendario.js"></script>
 	<script src="assets/js/router.js"></script>
 	<script src="assets/js/app.js"></script>
 </body>

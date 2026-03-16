@@ -280,3 +280,213 @@ html, body{
 	font-size: 0.88rem;
 	color: #555;
 }
+
+/* =========================
+   CONTENEDOR GENERAL
+========================= */
+.calendar-wrapper{
+	background:#fff;
+	border-radius:.6rem;
+	padding:1rem;
+}
+
+/* =========================
+   RESUMEN SUPERIOR
+========================= */
+.calendar-resumen{
+	background:#212529;
+	color:#fff;
+	border-radius:.6rem;
+}
+
+.calendar-resumen strong{
+	color:#fff;
+}
+
+.calendar-resumen div{
+	min-width:150px;
+}
+
+/* =========================
+   GRID
+========================= */
+.calendar-grid{
+	display:grid;
+	grid-template-columns: repeat(7,1fr);
+	gap:8px;
+	margin-top:.5rem;
+}
+
+/* =========================
+   ENCABEZADO DÍAS
+========================= */
+.calendar-header{
+	background:#212529;
+	color:#fff;
+	text-align:center;
+	font-weight:600;
+	font-size:.75rem;
+	padding:.5rem 0;
+	border-radius:.4rem;
+}
+
+/* =========================
+   DÍA NORMAL
+========================= */
+.calendar-day{
+	background:#f8f9fa;
+	border:1px solid #dee2e6;
+	border-radius:.6rem;
+	padding:.6rem;
+	min-height:110px;
+	display:flex;
+	flex-direction:column;
+	justify-content:space-between;
+	font-size:.75rem;
+	transition:all .15s ease-in-out;
+}
+
+.calendar-day:hover{
+	box-shadow:0 3px 8px rgba(0,0,0,.08);
+	transform:translateY(-1px);
+}
+
+.calendar-day.empty{
+	background:#f1f3f5;
+}
+
+/* =========================
+   NÚMERO DEL DÍA
+========================= */
+.calendar-day-number{
+	font-weight:600;
+	font-size:.85rem;
+	color:#212529;
+}
+
+/* =========================
+   MÉTRICAS
+========================= */
+.calendar-stats{
+	display:flex;
+	flex-direction:column;
+	gap:3px;
+}
+
+.stat-money{
+	font-weight:700;
+	font-size:.85rem;
+	color:#212529;
+}
+
+.stat-compact{
+	font-weight:600;
+	font-size:.75rem;
+	color:#495057;
+}
+
+/* =========================
+   MEJOR DÍA DEL MES
+========================= */
+.calendar-day.best-day{
+	background:#e9f7ef;
+	border:2px solid #198754;
+}
+
+/* =====================================
+   RESPONSIVE CALENDARIO – MOBILE
+===================================== */
+@media (max-width:576px){
+
+	/* ===== RESUMEN SUPERIOR ===== */
+	.calendar-resumen{
+		padding:.5rem .75rem !important;
+	}
+
+	.calendar-resumen div{
+		min-width:auto;
+		font-size:.7rem;
+	}
+
+	/* ===== GRID ===== */
+	.calendar-grid{
+		gap:5px;
+	}
+
+	/* ===== ENCABEZADO DÍAS ===== */
+	.calendar-header{
+		font-size:0;              /* ocultamos texto original */
+		padding:.3rem 0;
+		border-radius:.3rem;
+		position:relative;
+	}
+
+	/* Abreviaturas móviles */
+	.calendar-header:nth-child(1)::after{ content:"D"; font-size:.65rem; }
+	.calendar-header:nth-child(2)::after{ content:"L"; font-size:.65rem; }
+	.calendar-header:nth-child(3)::after{ content:"M"; font-size:.65rem; }
+	.calendar-header:nth-child(4)::after{ content:"M"; font-size:.65rem; }
+	.calendar-header:nth-child(5)::after{ content:"J"; font-size:.65rem; }
+	.calendar-header:nth-child(6)::after{ content:"V"; font-size:.65rem; }
+	.calendar-header:nth-child(7)::after{ content:"S"; font-size:.65rem; }
+
+	.calendar-header::after{
+		color:#fff;
+		font-weight:600;
+	}
+
+	/* ===== DÍAS ===== */
+	.calendar-day{
+		min-height:72px;
+		padding:.35rem;
+		border-radius:.45rem;
+	}
+
+	.calendar-day-number{
+		font-size:.7rem;
+	}
+
+	.stat-money{
+		font-size:.7rem;
+		font-weight:600;
+	}
+
+	.stat-compact{
+		font-size:.6rem;
+	}
+
+	/* Mejor día mantiene presencia */
+	.calendar-day.best-day{
+		border-width:2px;
+	}
+
+	/* Días sin actividad más sutiles */
+	.calendar-day.day-disabled{
+		opacity:.75;
+	}
+
+	.calendar-scroll{
+		overflow-x:auto;
+		-webkit-overflow-scrolling:touch;
+	}
+
+	.calendar-grid{
+		min-width:720px; /* 7 días × ~100px cada uno */
+	}
+}
+
+/* =========================
+   DÍA SIN ACTIVIDAD
+========================= */
+.calendar-day.day-disabled{
+	background:#f1f3f5;
+	border:1px dashed #dee2e6;
+	color:#adb5bd;
+	cursor:default;
+}
+
+.calendar-day.day-disabled:hover{
+	box-shadow:none;
+	transform:none;
+}
+

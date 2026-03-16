@@ -134,6 +134,12 @@
 				<div class="title">Publicidad</div>
 			</div>
 		</div>
+		<div class="col-6 col-md-3">
+			<div class="card-menu" onclick="cargarVista('calendario')">
+				<div class="icon text-secondary">📅</div>
+				<div class="title">Calendario</div>
+			</div>
+		</div>
 
 	</div>
 
