@@ -1,4 +1,5 @@
 <?php
+require_once 'auth.php';
 require __DIR__ . '/../db.php';
 
 $input = json_decode(file_get_contents('php://input'), true);

@@ -1,24 +1,27 @@
 <?php
-/* =========================
-   CONEXIÓN A BASE DE DATOS
-   ========================= */
 
-$host = 'localhost';
-$db   = 'persianas_vizual';   // 👉 nombre de tu BD
-$user = 'root';               // 👉 usuario (XAMPP)
-$pass = '';                   // 👉 contraseña (XAMPP)
-$charset = 'utf8mb4';
+if (!isset($pdo)) {
 
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+		$host = 'localhost';
+		$db   = 'persianas_vizual';
+		$user = 'root';
+		$pass = '';
+		$charset = 'utf8mb4';
 
-$options = [
-  PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-  PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-  PDO::ATTR_EMULATE_PREPARES   => false,
-];
+		$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 
-try {
-  $pdo = new PDO($dsn, $user, $pass, $options);
-} catch (PDOException $e) {
-  die('Error de conexión a la base de datos');
+		$options = [
+				PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+				PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+				PDO::ATTR_EMULATE_PREPARES   => false,
+				PDO::ATTR_PERSISTENT         => false
+		];
+
+		try {
+				$pdo = new PDO($dsn, $user, $pass, $options);
+		} catch (PDOException $e) {
+
+				// en producción NO mostrar error real
+				die('Error de conexión');
+		}
 }

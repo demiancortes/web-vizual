@@ -1,4 +1,5 @@
 <?php
+require_once 'auth.php';
 require __DIR__ . '/../db.php';
 
 $anio = isset($_GET['anio']) ? (int)$_GET['anio'] : (int)date('Y');

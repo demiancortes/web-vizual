@@ -1,33 +1,39 @@
 <?php
 session_start();
+require_once 'db.php';
 
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-	$usuario = '';
-	$password = '';
+    $usuario = trim($_POST['usuario'] ?? '');
+    $password = trim($_POST['password'] ?? '');
 
-	if (isset($_POST['usuario'])) {
-		$usuario = trim($_POST['usuario']);
-	}
+    if ($usuario === '' || $password === '') {
+        $error = 'Captura usuario y contraseña';
+    } else {
 
-	if (isset($_POST['password'])) {
-		$password = trim($_POST['password']);
-	}
+        $sql = "SELECT id, password FROM usuarios WHERE usuario = :usuario AND activo = 1 LIMIT 1";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':usuario' => $usuario]);
 
-	if ($usuario === '' || $password === '') {
-		$error = 'Captura usuario y contraseña';
-	}
-	else if ($usuario === 'admin' && $password === '1234') {
+        $user = $stmt->fetch();
 
-		$_SESSION['usuario'] = $usuario;
-		header('Location: index.php');
-		exit;
-	}
-	else {
-		$error = 'Usuario o contraseña incorrectos';
-	}
+        if ($user && password_verify($password, $user['password'])) {
+
+            session_regenerate_id(true);
+
+            $_SESSION['usuario_id'] = $user['id'];
+            $_SESSION['usuario'] = $usuario;
+            $_SESSION['LAST_ACTIVITY'] = time();
+
+            header("Location: index.php");
+            exit;
+
+        } else {
+            $error = 'Usuario o contraseña incorrectos';
+        }
+    }
 }
 ?>
 <!doctype html>

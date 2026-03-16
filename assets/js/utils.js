@@ -1,4 +1,9 @@
-// assets/js/utils.js
+function logout() {
+	if(confirm('¿Cerrar sesión?')) {
+		window.location.href = 'logout.php';
+	}
+}
+
 function primerDiaMes(){
 	const hoy = new Date();
 	const y = hoy.getFullYear();

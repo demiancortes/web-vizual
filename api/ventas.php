@@ -1,4 +1,5 @@
 <?php
+require_once 'auth.php';
 require __DIR__ . '/../db.php';
 
 $desde = !empty($_GET['desde'])

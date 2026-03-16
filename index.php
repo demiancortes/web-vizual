@@ -1,3 +1,4 @@
+<?php require_once 'auth.php'; ?>
 <!doctype html>
 <html lang="es">
 <head>
@@ -22,12 +23,18 @@
 
 <body>
 	<!-- 🔝 HEADER -->
-	<div class="app-header">
-		<strong></strong>
+	<div class="app-header d-flex justify-content-between align-items-center">
+	<strong></strong>
+	<div class="d-flex gap-2">
 		<button class="btn btn-outline-primary btn-sm" onclick="cargarVista('dashboard')">
 			<i class="bi bi-house"></i>
 		</button>
+
+		<button class="btn btn-outline-danger btn-sm" onclick="logout()">
+			<i class="bi bi-box-arrow-right"></i>
+		</button>
 	</div>
+</div>
 
 	<div id="appContent">
 		<!-- Aquí se cargan las vistas -->
