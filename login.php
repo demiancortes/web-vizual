@@ -6,34 +6,34 @@ $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $usuario = trim($_POST['usuario'] ?? '');
-    $password = trim($_POST['password'] ?? '');
+	$usuario = trim($_POST['usuario'] ?? '');
+	$password = trim($_POST['password'] ?? '');
 
-    if ($usuario === '' || $password === '') {
-        $error = 'Captura usuario y contraseña';
-    } else {
+	if ($usuario === '' || $password === '') {
+		$error = 'Captura usuario y contraseña';
+	} else {
 
-        $sql = "SELECT id, password FROM usuarios WHERE usuario = :usuario AND activo = 1 LIMIT 1";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([':usuario' => $usuario]);
+		$sql = "SELECT id, password FROM usuarios WHERE usuario = :usuario AND activo = 1 LIMIT 1";
+		$stmt = $pdo->prepare($sql);
+		$stmt->execute([':usuario' => $usuario]);
 
-        $user = $stmt->fetch();
+		$user = $stmt->fetch();
 
-        if ($user && password_verify($password, $user['password'])) {
+		if ($user && password_verify($password, $user['password'])) {
 
-            session_regenerate_id(true);
+			session_regenerate_id(true);
 
-            $_SESSION['usuario_id'] = $user['id'];
-            $_SESSION['usuario'] = $usuario;
-            $_SESSION['LAST_ACTIVITY'] = time();
+			$_SESSION['usuario_id'] = $user['id'];
+			$_SESSION['usuario'] = $usuario;
+			$_SESSION['LAST_ACTIVITY'] = time();
 
-            header("Location: index.php");
-            exit;
+			header("Location: index.php");
+			exit;
 
-        } else {
-            $error = 'Usuario o contraseña incorrectos';
-        }
-    }
+		} else {
+			$error = 'Usuario o contraseña incorrectos';
+		}
+	}
 }
 ?>
 <!doctype html>
@@ -45,6 +45,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="assets/css/app.css" rel="stylesheet">
+
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="apple-mobile-web-app-title" content="Control">
+
+	<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+	<link rel="manifest" href="/manifest.json">
 </head>
 
 <body class="bg-light d-flex align-items-center justify-content-center" style="min-height:100vh">
@@ -61,19 +68,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 				<div class="mb-3">
 					<input
-						type="text"
-						name="usuario"
-						class="form-control py-2"
-						placeholder="Usuario"
-						autofocus>
+					type="text"
+					name="usuario"
+					class="form-control py-2"
+					placeholder="Usuario"
+					autofocus>
 				</div>
 
 				<div class="mb-4">
 					<input
-						type="password"
-						name="password"
-						class="form-control py-2"
-						placeholder="Contraseña">
+					type="password"
+					name="password"
+					class="form-control py-2"
+					placeholder="Contraseña">
 				</div>
 
 				<button class="btn btn-success w-100 py-2">

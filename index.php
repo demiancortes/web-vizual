@@ -6,6 +6,13 @@
 	<title>Vizual | Panel de Control</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="apple-mobile-web-app-title" content="Control">
+
+	<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+	<link rel="manifest" href="/manifest.json">
+
 	<link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
@@ -24,17 +31,17 @@
 <body>
 	<!-- 🔝 HEADER -->
 	<div class="app-header d-flex justify-content-between align-items-center">
-	<strong></strong>
-	<div class="d-flex gap-2">
-		<button class="btn btn-outline-primary btn-sm" onclick="cargarVista('dashboard')">
-			<i class="bi bi-house"></i>
-		</button>
+		<strong></strong>
+		<div class="d-flex gap-2">
+			<button class="btn btn-outline-primary btn-sm" onclick="cargarVista('dashboard')">
+				<i class="bi bi-house"></i>
+			</button>
 
-		<button class="btn btn-outline-danger btn-sm" onclick="logout()">
-			<i class="bi bi-box-arrow-right"></i>
-		</button>
+			<button class="btn btn-outline-danger btn-sm" onclick="logout()">
+				<i class="bi bi-box-arrow-right"></i>
+			</button>
+		</div>
 	</div>
-</div>
 
 	<div id="appContent">
 		<!-- Aquí se cargan las vistas -->
