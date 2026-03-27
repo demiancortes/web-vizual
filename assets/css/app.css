@@ -490,3 +490,12 @@ html, body{
 	transform:none;
 }
 
+.table-fixed td,
+.table-fixed th {
+	white-space: nowrap;
+}
+
+.table-fixed {
+	table-layout: auto;
+	min-width: 700px; /* o 650 según tu gusto */
+}

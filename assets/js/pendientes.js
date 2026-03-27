@@ -139,7 +139,7 @@ function renderPendientes() {
 
 				<div class="card-body p-0">
 					<div class="table-scroll table-scroll-pendientes">
-						<table class="table table-sm mb-0">
+						<table class="table table-sm mb-0 table-fixed">
 
 							<colgroup>
 								<col style="width:15%">

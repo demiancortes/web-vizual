@@ -145,12 +145,20 @@ function renderVentas(data){
 	initBuscadorVentas();
 
 	/* =========================
-	   1️⃣ Totales por CLIENTE (cliente_id)
+	   1️⃣ Totales por CLIENTE
 	   ========================= */
 	const totales = {};
+	const conteo = {};
+	const ganancias = {};
+
 	data.forEach(v=>{
 		if(!totales[v.cliente_id]) totales[v.cliente_id] = 0;
+		if(!conteo[v.cliente_id]) conteo[v.cliente_id] = 0;
+		if(!ganancias[v.cliente_id]) ganancias[v.cliente_id] = 0;
+
 		totales[v.cliente_id] += parseFloat(v.total);
+		conteo[v.cliente_id]++;
+		ganancias[v.cliente_id] += parseFloat(v.ganancia);
 	});
 
 	let html = '';
@@ -163,8 +171,21 @@ function renderVentas(data){
 		   ========================= */
 		if(grupoActual !== v.cliente_id){
 
-			// cerrar grupo anterior
+			// 🔴 cerrar grupo anterior
 			if(grupoActual !== null){
+
+				if(conteo[grupoActual] > 1){
+					html += `
+						<tr>
+							<td colspan="6" class="text-end fw-bold">
+								Ganancia total:
+							</td>
+							<td class="text-end fw-bold text-success">
+								$${ganancias[grupoActual].toLocaleString(undefined,{minimumFractionDigits:2})}
+							</td>
+						</tr>`;
+				}
+
 				html += `
 							</tbody>
 						</table>
@@ -227,8 +248,20 @@ function renderVentas(data){
 	});
 
 	/* =========================
-	   Cierre FINAL
+	   🔴 Cierre FINAL
 	   ========================= */
+	if(grupoActual !== null && conteo[grupoActual] > 1){
+		html += `
+			<tr>
+				<td colspan="6" class="text-end fw-bold">
+					
+				</td>
+				<td class="text-end fw-bold text-success">
+					$${ganancias[grupoActual].toLocaleString(undefined,{minimumFractionDigits:2})}
+				</td>
+			</tr>`;
+	}
+
 	html += `
 							</tbody>
 						</table>
