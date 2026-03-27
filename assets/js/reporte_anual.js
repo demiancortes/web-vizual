@@ -69,7 +69,7 @@ function renderReporteAnual(data, anioSeleccionado) {
 	<div class="card shadow-sm">
 		<div class="card-body p-0">
 			<div class="table-scroll">
-				<table class="table table-sm table-hover align-middle mb-0">
+				<table class="table table-sm table-hover align-middle mb-0 table-fixed">
 					<thead class="table-dark">
 						<tr>
 							<th>Mes</th>
