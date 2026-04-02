@@ -5,20 +5,35 @@ require __DIR__ . '/../db.php';
 $accion = isset($_GET['accion']) ? $_GET['accion'] : '';
 
 /* ======================================================
-   ORÍGENES DE VENTA
-   ====================================================== */
-   if ($accion === 'origenes') {
+ORÍGENES DE VENTA
+====================================================== */
 
-   	$sql = "SELECT UPPER(ubicacion) AS origen FROM clientes WHERE ubicacion IS NOT NULL AND ubicacion <> '' GROUP BY UPPER(ubicacion) ORDER BY origen ASC";
+if ($accion === 'origenes') {
 
-   	$stmt = $pdo->prepare($sql);
-   	$stmt->execute();
+	// Orígenes por defecto
+	$origenes_base = ["MARKETPLACE","PUBLICIDAD","RECOMENDACIÓN","RECOMENDACIÓN"];
 
-   	$origenes = $stmt->fetchAll(PDO::FETCH_COLUMN);
+	// Obtener de la BD
+	$sql = "SELECT UPPER(ubicacion) AS origen 
+	FROM clientes 
+	WHERE ubicacion IS NOT NULL 
+	AND ubicacion <> '' 
+	GROUP BY UPPER(ubicacion)";
 
-   	echo json_encode($origenes);
-   	exit;
-   }
+	$stmt = $pdo->prepare($sql);
+	$stmt->execute();
+
+	$origenes_db = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+	// Unir y eliminar duplicados
+	$origenes = array_unique(array_merge($origenes_base, $origenes_db));
+
+	// Ordenar
+	sort($origenes);
+
+	echo json_encode(array_values($origenes));
+	exit;
+}
 
 
 /* ======================================================
