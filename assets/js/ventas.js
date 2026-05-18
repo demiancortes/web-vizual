@@ -55,7 +55,7 @@ function recalcularBadgesVentas(){
 		if (badge) {
 			if (badge.classList.contains('badge-publicidad')) origen = 'publicidad';
 			else if (badge.classList.contains('badge-recomendacion')) origen = 'recomendacion';
-			else if (badge.classList.contains('badge-mkt')) origen = 'mkt';
+			else if (badge.classList.contains('badge-mkt') || badge.classList.contains('badge-na')) origen = 'mkt';
 		}
 
 		card.querySelectorAll('tbody tr').forEach(tr=>{
