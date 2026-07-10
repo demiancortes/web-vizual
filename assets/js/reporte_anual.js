@@ -143,6 +143,56 @@ function renderReporteAnual(data, anioSeleccionado) {
 						`;
 					}
 				});
+
+				/* =========================
+   Embudo Comercial
+   ========================= */
+				if (r.embudo) {
+
+					const e = r.embudo;
+					const collapseId = `embudo-${index}`;
+
+					html += `
+	<tr class="table-light small reporte-subfila">
+		<td colspan="7" class="ps-4">
+
+			<a
+				class="text-decoration-none text-dark fw-semibold"
+				data-bs-toggle="collapse"
+				href="#${collapseId}"
+				role="button"
+				aria-expanded="false">
+
+				↳ 📊 Detalles
+
+			</a>
+
+			<div class="collapse mt-2" id="${collapseId}">
+
+				<div class="mb-1">
+					↳ 💬 ${fmt(e.mensajes)} mensajes |
+					📅 ${fmt(e.citas)} citas |
+					🛒 ${fmt(e.clientes)} clientes
+				</div>
+
+				<div class="mb-1">
+					↳ 💲 $${fmt(e.costoMensaje)}/msg |
+					💲 $${fmt(e.costoCita)}/cita |
+					💲 $${fmt(e.costoCliente)}/cliente
+				</div>
+
+				<div>
+					↳ 📈 ${e.convMensajeCita}% Msg→Cita |
+					${e.convCitaCliente}% Cita→Cliente |
+					${e.convMensajeCliente}% Msg→Cliente
+				</div>
+
+			</div>
+
+		</td>
+	</tr>
+					`;
+				}
 			}
 		}
 	});
