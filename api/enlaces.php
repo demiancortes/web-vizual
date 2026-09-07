@@ -17,7 +17,7 @@ function validarSlug($slug) {
 }
 
 function rutaImagenes() {
-	return __DIR__ . '/../go/img/';
+	return '/var/www/persianasvizual/go/img/';
 }
 
 function extensionImagen($mime) {
