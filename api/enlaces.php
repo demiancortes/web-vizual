@@ -48,7 +48,7 @@ if ($method === 'GET') {
 		responder($enlace);
 	}
 
-	$stmt = $pdo->query("SELECT id, slug, titulo, descripcion, imagen, destino, clicks, ultimo_click, activo FROM links ORDER BY id DESC");
+	$stmt = $pdo->query("SELECT id, slug, titulo, descripcion, imagen, destino, clicks, ultimo_click, activo FROM links ORDER BY ultimo_click DESC");
 	responder($stmt->fetchAll(PDO::FETCH_ASSOC));
 }
 
