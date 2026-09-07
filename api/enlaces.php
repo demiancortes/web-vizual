@@ -64,25 +64,7 @@ if ($method !== 'POST') {
  * Por eso los datos llegan por $_POST, no por php://input.
  */
 $accion = isset($_POST['accion']) ? trim($_POST['accion']) : '';
-if ($accion === 'guardar' && isset($_FILES['imagenArchivo'])) {
 
-	$archivo = $_FILES['imagenArchivo'];
-	$destinoDebug = rutaImagenes() . 'debug-prueba.jpg';
-
-	$movido = move_uploaded_file($archivo['tmp_name'], $destinoDebug);
-
-	responder([
-		'ok' => $movido,
-		'debug' => [
-			'error' => $archivo['error'],
-			'tmp' => $archivo['tmp_name'],
-			'existe_tmp' => file_exists($archivo['tmp_name']),
-			'destino' => $destinoDebug,
-			'movido' => $movido,
-			'existe_destino' => file_exists($destinoDebug)
-		]
-	]);
-}
 
 /* =========================
    TOGGLE
@@ -98,10 +80,11 @@ if ($accion === 'toggle') {
 	$stmt = $pdo->prepare("UPDATE links SET activo = IF(activo = 1, 0, 1) WHERE id = :id");
 	$ok = $stmt->execute([':id' => $id]);
 
-	responder([
-		'ok' => $ok,
-		'mensaje' => $ok ? 'Estado actualizado' : 'No se pudo actualizar'
-	]);
+responder([
+    'ok' => $ok,
+    'mensaje' => $ok ? 'Enlace creado' : 'No se pudo crear',
+    'errorInfo' => $stmt->errorInfo()
+]);
 }
 
 /* =========================
