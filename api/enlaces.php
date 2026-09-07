@@ -65,14 +65,21 @@ if ($method !== 'POST') {
  */
 $accion = isset($_POST['accion']) ? trim($_POST['accion']) : '';
 if ($accion === 'guardar' && isset($_FILES['imagenArchivo'])) {
+
+	$archivo = $_FILES['imagenArchivo'];
+	$destinoDebug = rutaImagenes() . 'debug-prueba.jpg';
+
+	$movido = move_uploaded_file($archivo['tmp_name'], $destinoDebug);
+
 	responder([
-		'ok' => false,
+		'ok' => $movido,
 		'debug' => [
-			'error' => $_FILES['imagenArchivo']['error'],
-			'nombre' => $_FILES['imagenArchivo']['name'],
-			'tamano' => $_FILES['imagenArchivo']['size'],
-			'tmp' => $_FILES['imagenArchivo']['tmp_name'],
-			'existe_tmp' => file_exists($_FILES['imagenArchivo']['tmp_name'])
+			'error' => $archivo['error'],
+			'tmp' => $archivo['tmp_name'],
+			'existe_tmp' => file_exists($archivo['tmp_name']),
+			'destino' => $destinoDebug,
+			'movido' => $movido,
+			'existe_destino' => file_exists($destinoDebug)
 		]
 	]);
 }
