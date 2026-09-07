@@ -80,11 +80,10 @@ if ($accion === 'toggle') {
 	$stmt = $pdo->prepare("UPDATE links SET activo = IF(activo = 1, 0, 1) WHERE id = :id");
 	$ok = $stmt->execute([':id' => $id]);
 
-responder([
-    'ok' => $ok,
-    'mensaje' => $ok ? 'Enlace creado' : 'No se pudo crear',
-    'errorInfo' => $stmt->errorInfo()
-]);
+	responder([
+		'ok' => $ok,
+		'mensaje' => $ok ? 'Estado actualizado' : 'No se pudo actualizar'
+	]);
 }
 
 /* =========================
