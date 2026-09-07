@@ -140,7 +140,24 @@
 				<div class="title">Calendario</div>
 			</div>
 		</div>
-
+		<div class="col-6 col-md-3">
+			<div class="card-menu" onclick="cargarVista('enlaces')">
+				<div class="icon text-secondary">🔗</div>
+				<div class="title">Enlaces</div>
+			</div>
+		</div>
+		<div class="col-6 col-md-3">
+			<div class="card-menu" onclick="cargarVista('cortinas')">
+				<div class="icon text-secondary">🪟</div>
+				<div class="title">Cortinas</div>
+			</div>
+		</div>
+		<div class="col-6 col-md-3">
+			<div class="card-menu" onclick="cargarVista('cotizador')">
+				<div class="icon text-secondary">🧮</div>
+				<div class="title">Cotizador</div>
+			</div>
+		</div>
 	</div>
 
 </div>

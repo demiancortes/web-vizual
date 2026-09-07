@@ -72,6 +72,7 @@
 	<script src="assets/js/pendientes.js"></script>
 	<script src="assets/js/clientes.js"></script>
 	<script src="assets/js/gasolina.js"></script>
+	<script src="assets/js/enlaces.js"></script>
 	<script src="assets/js/publicidad.js"></script>
 	<script src="assets/js/reporte_anual.js"></script>
 	<script src="assets/js/calendario.js"></script>

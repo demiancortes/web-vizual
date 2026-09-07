@@ -499,3 +499,64 @@ html, body{
 	table-layout: auto;
 	min-width: 700px; /* o 650 según tu gusto */
 }
+
+/* =========================
+   ENLACES
+========================= */
+.table-enlaces{
+	min-width:1050px;
+}
+
+.table-enlaces tbody tr.table-danger{
+	--bs-table-bg:#f8d7da;
+	--bs-table-striped-bg:#f5c2c7;
+}
+
+.enlace-preview-wrap{
+	width:150px;
+	aspect-ratio:1200 / 630;
+	overflow:hidden;
+	border-radius:.45rem;
+	background:#f1f3f5;
+	border:1px solid #dee2e6;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+}
+
+.enlace-preview{
+	width:100%;
+	height:100%;
+	object-fit:contain;
+	display:block;
+}
+
+.enlace-preview-vacio{
+	width:100%;
+	height:100%;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	color:#6c757d;
+	font-size:.7rem;
+}
+
+.enlace-modal-preview{
+	width:100%;
+	max-width:600px;
+	aspect-ratio:1200 / 630;
+	overflow:hidden;
+	border:1px solid #dee2e6;
+	border-radius:.5rem;
+	background:#f8f9fa;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+}
+
+.enlace-modal-preview img{
+	width:100%;
+	height:100%;
+	object-fit:cover;
+	display:block;
+}
