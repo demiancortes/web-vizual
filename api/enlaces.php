@@ -64,6 +64,18 @@ if ($method !== 'POST') {
  * Por eso los datos llegan por $_POST, no por php://input.
  */
 $accion = isset($_POST['accion']) ? trim($_POST['accion']) : '';
+if ($accion === 'guardar' && isset($_FILES['imagenArchivo'])) {
+	responder([
+		'ok' => false,
+		'debug' => [
+			'error' => $_FILES['imagenArchivo']['error'],
+			'nombre' => $_FILES['imagenArchivo']['name'],
+			'tamano' => $_FILES['imagenArchivo']['size'],
+			'tmp' => $_FILES['imagenArchivo']['tmp_name'],
+			'existe_tmp' => file_exists($_FILES['imagenArchivo']['tmp_name'])
+		]
+	]);
+}
 
 /* =========================
    TOGGLE
